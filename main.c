@@ -14,11 +14,17 @@ void handle_sigint(int sig)
     rl_redisplay();
 }
 
+void handle_sigquit(int sig)
+{
+    //ignora il segnale
+}
+
 int     main()
 {
     char    *input;
 
     signal(SIGINT, handle_sigint);
+    signal(SIGQUIT, handle_sigquit);
     while (1)
     {
         input = readline("MINIPROMPT> ");
