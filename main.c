@@ -5,9 +5,13 @@
 #include <signal.h>
 #include <unistd.h>
 
-void    handle_sigint()
+
+void handle_sigint(int sig)
 {
-    write(STDOUT_FILENO, "\nMINIPROMPT% ", 14);
+    write(STDOUT_FILENO, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
 }
 
 int     main()
@@ -17,7 +21,7 @@ int     main()
     signal(SIGINT, handle_sigint);
     while (1)
     {
-        input = readline("MINIPROMPT% ");
+        input = readline("MINIPROMPT> ");
         if (!input)
         {
             printf("\nExit From The Shell\n");
