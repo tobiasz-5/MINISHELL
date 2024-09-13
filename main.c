@@ -6,6 +6,9 @@
 #include <unistd.h>
 #include <string.h>
 
+#define MAX_TOKENS 100
+
+
 typedef enum    e_token_type
 {
     TOKEN_PIPE = 0,
@@ -25,10 +28,12 @@ typedef struct  s_token_data
     t_token_type    type;
 }               t_token_data;
 
-char **realloc_tokens(char **tokens, int *capacity) {
+char **realloc_tokens(char **tokens, int *capacity) 
+{
     *capacity *= 2;
     tokens = realloc(tokens, *capacity * sizeof(char *));
-    if (!tokens) {
+    if (!tokens) 
+    {
         perror("realloc");
         return NULL;
     }
@@ -45,30 +50,23 @@ int add_token(char **tokens, int *num_tokens, char *token) {
     return 0;
 }
 
+
 char **first_split(char *input) 
 {
     char **tokens;
-    char *token;
-    int num_tokens;
-    int capacity;
+    int num_tokens = 0, i = 0, start;
 
-    num_tokens = 0;
-    capacity = 10;
-    tokens = malloc(capacity * sizeof(char *));
-    if (!tokens)
-        return NULL;
-    token = strtok(input, " ");
-    while (token) 
+    tokens = malloc(MAX_TOKENS * sizeof(char *));
+    if (!tokens) return NULL;
+
+    while (input[i] && num_tokens < MAX_TOKENS)
     {
-        if (num_tokens >= capacity) 
-        {
-            tokens = realloc_tokens(tokens, &capacity);
-            if (!tokens)
-                return NULL;
+        while (input[i] == ' ') i++; // Salta gli spazi
+        start = i;
+        while (input[i] && input[i] != ' ') i++; // Trova la fine del token
+        if (i > start) {
+            tokens[num_tokens++] = strndup(input + start, i - start);
         }
-        if (add_token(tokens, &num_tokens, token) == -1)
-            return NULL;
-        token = strtok(NULL, " ");
     }
     tokens[num_tokens] = NULL;
     return tokens;
