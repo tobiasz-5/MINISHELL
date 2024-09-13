@@ -4,6 +4,20 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
+#include <string.h>
+
+typedef enum    e_token_type
+{
+    TOKEN_PIPE = 0,
+    TOKEN_REDIR_APPEND = 1,
+    TOKEN_HEREDOC = 2,
+    TOKEN_REDIR_IN = 3,
+    TOKEN_REDIR_OUT = 4,
+    TOKEN_SINGLE_QUOTE = 5,
+    TOKEN_DOUBLE_QUOTE = 6,
+    TOKEN_DOLLAR = 7,
+    TOKEN_WORD = 8,
+}               t_token_type;
 
 typedef struct  s_token_data
 {
@@ -11,22 +25,53 @@ typedef struct  s_token_data
     t_token_type    type;
 }               t_token_data;
 
-typedef enum    e_token_type
-{
-    TOKEN_WORD,
-    TOKEN_PIPE,
-    TOKEN_REDIR_IN,
-    TOKEN_REDIR_OUT,
-    TOKEN_REDIR_APPEND,
-    TOKEN_HEREDOC,
-    TOKEN_SINGLE_QUOTE,
-    TOKEN_DOUBLE_QUOTE,
-    TOKEN_DOLLAR,
-}               t_token_type;
+char **realloc_tokens(char **tokens, int *capacity) {
+    *capacity *= 2;
+    tokens = realloc(tokens, *capacity * sizeof(char *));
+    if (!tokens) {
+        perror("realloc");
+        return NULL;
+    }
+    return tokens;
+}
 
-char    **split_input(char *input)
+int add_token(char **tokens, int *num_tokens, char *token) {
+    tokens[*num_tokens] = strdup(token);
+    if (!tokens[*num_tokens]) {
+        perror("strdup");
+        return -1;
+    }
+    (*num_tokens)++;
+    return 0;
+}
+
+char **first_split(char *input) 
 {
-    char    **tokens = malloc(sizeof(char *) *  100)
+    char **tokens;
+    char *token;
+    int num_tokens;
+    int capacity;
+
+    num_tokens = 0;
+    capacity = 10;
+    tokens = malloc(capacity * sizeof(char *));
+    if (!tokens)
+        return NULL;
+    token = strtok(input, " ");
+    while (token) 
+    {
+        if (num_tokens >= capacity) 
+        {
+            tokens = realloc_tokens(tokens, &capacity);
+            if (!tokens)
+                return NULL;
+        }
+        if (add_token(tokens, &num_tokens, token) == -1)
+            return NULL;
+        token = strtok(NULL, " ");
+    }
+    tokens[num_tokens] = NULL;
+    return tokens;
 }
 
 int     count_tokens(char **words)
@@ -39,6 +84,32 @@ int     count_tokens(char **words)
     return (i);
 }
 
+t_token_data    give_token_type(char *token)
+{
+    t_token_data    token_data;
+
+    token_data.token = strdup(token);
+    if(strcmp(token, "|") == 0)
+        token_data.type = TOKEN_PIPE;
+    else if(strcmp(token, ">>") == 0)
+        token_data.type = TOKEN_REDIR_APPEND;
+    else if(strcmp(token, "<<") == 0)
+        token_data.type = TOKEN_HEREDOC;
+    else if(strcmp(token, "<") == 0)
+        token_data.type = TOKEN_REDIR_IN;
+    else if(strcmp(token, ">") == 0)
+        token_data.type = TOKEN_REDIR_OUT;
+    else if(strcmp(token, "'") == 0)
+        token_data.type = TOKEN_SINGLE_QUOTE;
+    else if(strcmp(token, "\"") == 0)
+        token_data.type = TOKEN_DOUBLE_QUOTE;
+    else if(strcmp(token, "$") == 0)
+        token_data.type = TOKEN_DOLLAR;
+    else
+        token_data.type = TOKEN_WORD;
+    return (token_data);
+}
+
 t_token_data  *lexer(char *input)
 {
     char            **words;
@@ -47,14 +118,29 @@ t_token_data  *lexer(char *input)
     int             i;
 
     words = first_split(input);
-    tokens = malloc(sizeof(t_token_data) * (count_tokens(words) + 1));
-    
-
-    
+    if (!words)
+        return NULL;
+    num_tokens = count_tokens(words);
+    tokens = malloc(sizeof(t_token_data) * (num_tokens + 1));
+    if (!tokens)
+        return NULL;
+    i = 0;
+    num_tokens = 0;
+    while(words[i])
+    {
+        tokens[num_tokens] = give_token_type(words[i]);
+        num_tokens++;
+        free(words[i]);
+        i++;
+    }
+    free(words);
+    tokens[num_tokens].token = NULL;
+    return (tokens); 
 }
 
 void handle_sigint(int sig)
 {
+    (void)sig;
     write(STDOUT_FILENO, "\n", 1);
     rl_on_new_line();
     rl_replace_line("", 0);
@@ -63,17 +149,20 @@ void handle_sigint(int sig)
 
 void handle_sigquit(int sig)
 {
-    //ignora il segnale
+    (void)sig;
 }
 
 int     main()
 {
-    char    *input;
+    char            *input;
+    t_token_data    *tokens;
+    int             i;
 
     signal(SIGINT, handle_sigint);
     signal(SIGQUIT, handle_sigquit);
     while (1)
     {
+        i = 0;
         input = readline("MINIPROMPT> ");
         if (!input)
         {
@@ -85,7 +174,15 @@ int     main()
         else
         {
             add_history(input);
-            lexer(input);
+            tokens = lexer(input);
+            while (tokens[i].token)
+            {
+                printf("Rappres_Token: %s\n", tokens[i].token);
+                printf("N_Type: %d\n", tokens[i].type);
+                free(tokens[i].token);
+                i++;
+            }
+            free(tokens);
             free(input);
         }
     }
