@@ -28,6 +28,7 @@ typedef struct  s_token_data
     t_token_type    type;
 }               t_token_data;
 
+// rialloca memoria per l'array di token quando la capacità attuale è piena
 char **realloc_tokens(char **tokens, int *capacity) 
 {
     *capacity *= 2;
@@ -82,6 +83,7 @@ int     count_tokens(char **words)
     return (i);
 }
 
+// determina il tipo di un token in base al suo contenuto
 t_token_data    give_token_type(char *token)
 {
     t_token_data    token_data;
@@ -108,6 +110,7 @@ t_token_data    give_token_type(char *token)
     return (token_data);
 }
 
+// analizza l'input e lo converte in una lista di token
 t_token_data  *lexer(char *input)
 {
     char            **words;
@@ -136,6 +139,7 @@ t_token_data  *lexer(char *input)
     return (tokens); 
 }
 
+// gestisce il segnale SIGINT (Ctrl+C)
 void handle_sigint(int sig)
 {
     (void)sig;
@@ -145,6 +149,7 @@ void handle_sigint(int sig)
     rl_redisplay();
 }
 
+// gestisce il segnale SIGQUIT (Ctrl+\)
 void handle_sigquit(int sig)
 {
     (void)sig;
@@ -161,10 +166,10 @@ int     main()
     while (1)
     {
         i = 0;
-        input = readline("MINIPROMPT> ");
+        input = readline("MINIPROMPT$ ");
         if (!input)
         {
-            printf("\nExit From The Shell\n");
+            printf("\nFarewell my friend\n");
             break;
         }
         if (*input == '\0')
