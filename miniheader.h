@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniheader.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 15:47:52 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/15 16:19:31 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/15 18:06:00 by negambar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char **first_split(char *input);
 // signals.c
 void handle_sigint(int sig);
 void handle_sigquit(int sig);
-
+int	 handle_builtins(char *input, char *cmd);
 
 #endif 
 

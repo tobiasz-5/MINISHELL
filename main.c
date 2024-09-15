@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 15:49:48 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/15 16:07:06 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/15 18:05:31 by negambar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ int     main()
         }
         if (*input == '\0')
             free(input);
-        else
+        if (handle_builtins(input, "exit"))
+			break;
+		else
         {
             add_history(input);
             tokens = lexer(input);
