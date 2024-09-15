@@ -7,7 +7,7 @@ SRCS = 	main.c tokenizer.c signals.c
 OBJS = $(SRCS:.c=.o)
 
 
-all: $(NAME)
+all: $(NAME) mini_art
 
 $(NAME): $(SRCS) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(SRCS) $(LIBFT)
@@ -29,4 +29,16 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re libft 
+
+mini_art:
+	@echo "▗▖  ▗▖▗▄▄▄▖▗▖  ▗▖▗▄▄▄▖ ▗▄▄▖▗▖ ▗▖▗▄▄▄▖▗▖   ▗▖   "
+	@echo "▐▛▚▞▜▌  █  ▐▛▚▖▐▌  █  ▐▌   ▐▌ ▐▌▐▌   ▐▌   ▐▌   "
+	@echo "▐▌  ▐▌  █  ▐▌ ▝▜▌  █   ▝▀▚▖▐▛▀▜▌▐▛▀▀▘▐▌   ▐▌   "
+	@echo "▐▌  ▐▌▗▄█▄▖▐▌  ▐▌▗▄█▄▖▗▄▄▞▘▐▌ ▐▌▐▙▄▄▖▐▙▄▄▖▐▙▄▄▖ \033[1mCOMPLILED!\033[0m⠀"
+
+                                               
+                                               
+                                               
+
+
 
