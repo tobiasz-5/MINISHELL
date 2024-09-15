@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 15:47:52 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/15 16:03:27 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/15 16:19:31 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ t_token_data  *lexer(char *input);
 
 // main.c
 char **first_split(char *input);
-void handle_sigint(int sig);
-void handle_sigquit(int sig);
 
 // signals.c
 void handle_sigint(int sig);
