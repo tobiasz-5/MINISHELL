@@ -28,6 +28,36 @@ typedef struct  s_token_data
     t_token_type    type;
 }               t_token_data;
 
+// converte il tipo di token in una stringa per la stampa
+const char *token_type_to_string(t_token_type type)
+{
+    switch (type)
+    {
+    case TOKEN_PIPE:         //      |
+        return "PIPE";
+    case TOKEN_REDIR_APPEND: //      >>
+        return "REDIRECT_APPEND";
+    case TOKEN_HEREDOC:      //      <<
+        return "HEREDOC";
+    case TOKEN_REDIR_IN:     //      <
+        return "REDIRECT_IN";
+    case TOKEN_REDIR_OUT:    //      >
+        return "REDIRECT_OUT";
+    case TOKEN_SINGLE_QUOTE: //      '
+        return "SINGLE_QUOTE";
+    case TOKEN_DOUBLE_QUOTE: //      "
+        return "DOUBLE_QUOTE";
+    case TOKEN_DOLLAR:       //      $
+        return "DOLLAR";
+    case TOKEN_WORD:         //      ls, wc, cat, etc.
+        return "WORD";
+    default:                 //      non dovrebbe mai accadere
+        return "UNKNOWN";
+    }
+}
+
+
+
 // rialloca memoria per l'array di token quando la capacità attuale è piena
 char **realloc_tokens(char **tokens, int *capacity) 
 {
@@ -180,8 +210,7 @@ int     main()
             tokens = lexer(input);
             while (tokens[i].token)
             {
-                printf("Rappres_Token: %s\n", tokens[i].token);
-                printf("N_Type: %d\n", tokens[i].type);
+                printf("Token: %s \t Type: %s\n", tokens[i].token, token_type_to_string(tokens[i].type));
                 free(tokens[i].token);
                 i++;
             }
