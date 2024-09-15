@@ -1,0 +1,35 @@
+# Compiled object files
+*.o
+*.obj
+
+# Compiled binary files
+*.exe
+*.out
+*.app
+
+# Libraries
+*.a
+*.lib
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# Backup files
+*.bak
+
+# IDE or Editor files
+*.vscode/
+*.idea/
+*.sublime-project
+*.sublime-workspace
+
+# macOS specific
+.DS_Store
+
+# Build directories
+build/
+bin/
+obj/
+
