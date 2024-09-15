@@ -6,7 +6,7 @@
 /*   By: mailinci <mailinci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 15:49:48 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/15 15:59:16 by mailinci         ###   ########.fr       */
+/*   Updated: 2024/09/15 16:07:06 by mailinci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,6 @@ char **first_split(char *input)
     }
     tokens[num_tokens] = NULL;
     return tokens;
-}
-
-// gestisce il segnale SIGINT (Ctrl+C)
-void handle_sigint(int sig)
-{
-    (void)sig;
-    write(STDOUT_FILENO, "\n", 1);
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
-}
-
-// gestisce il segnale SIGQUIT (Ctrl+\)
-void handle_sigquit(int sig)
-{
-    (void)sig;
 }
 
 int     main()
