@@ -40,92 +40,107 @@ const char *token_type_to_string(t_token_type type)
     }
 }
 
-// rialloca memoria per l'array di token quando la capacità attuale è piena
-char **realloc_tokens(char **tokens, int *capacity) 
+t_token_node *give_token_type(char *token_str)
 {
-    *capacity *= 2;
-    tokens = realloc(tokens, *capacity * sizeof(char *));
-    if (!tokens) 
+    t_token_node *token_node;
+
+    token_node = malloc(sizeof(t_token_node));
+    if (!token_node)
+        return (NULL);
+    token_node->token = strdup(token_str);
+    if (!token_node->token)
     {
-        perror("realloc");
-        return NULL;
+        free(token_node);
+        return (NULL);
     }
-    return tokens;
+    token_node->type = determine_token_type(token_str);
+    token_node->next = NULL;
+    return (token_node);
 }
 
-int add_token(char **tokens, int *num_tokens, char *token)
+t_token_type determine_token_type(char *token_str)
 {
-    tokens[*num_tokens] = strdup(token);
-    if (!tokens[*num_tokens]) {
-        perror("strdup");
-        return -1;
-    }
-    (*num_tokens)++;
-    return 0;
-}
-
-int     count_tokens(char **words)
-{
-    int     i;
-
-    i = 0;
-    while (words[i])
-        i++;
-    return (i);
-}
-
-// determina il tipo di un token in base al suo contenuto
-t_token_data    give_token_type(char *token)
-{
-    t_token_data    token_data;
-
-    token_data.token = strdup(token);
-    if(strcmp(token, "|") == 0)
-        token_data.type = TOKEN_PIPE;
-    else if(strcmp(token, ">>") == 0)
-        token_data.type = TOKEN_REDIR_APPEND;
-    else if(strcmp(token, "<<") == 0)
-        token_data.type = TOKEN_HEREDOC;
-    else if(strcmp(token, "<") == 0)
-        token_data.type = TOKEN_REDIR_IN;
-    else if(strcmp(token, ">") == 0)
-        token_data.type = TOKEN_REDIR_OUT;
-    else if(strcmp(token, "'") == 0)
-        token_data.type = TOKEN_SINGLE_QUOTE;
-    else if(strcmp(token, "\"") == 0)
-        token_data.type = TOKEN_DOUBLE_QUOTE;
-    else if(strcmp(token, "$") == 0)
-        token_data.type = TOKEN_DOLLAR;
+    if (ft_strcmp(token_str, "|") == 0)
+        return (TOKEN_PIPE);
+    else if (ft_strcmp(token_str, ">>") == 0)
+        return (TOKEN_REDIR_APPEND);
+    else if (ft_strcmp(token_str, "<<") == 0)
+        return (TOKEN_HEREDOC);
+    else if (ft_strcmp(token_str, "<") == 0)
+        return (TOKEN_REDIR_IN);
+    else if (ft_strcmp(token_str, ">") == 0)
+        return (TOKEN_REDIR_OUT);
+    else if (ft_strcmp(token_str, "'") == 0)
+        return (TOKEN_SINGLE_QUOTE);
+    else if (ft_strcmp(token_str, "\"") == 0)
+        return (TOKEN_DOUBLE_QUOTE);
+    else if (ft_strcmp(token_str, "$") == 0)
+        return (TOKEN_DOLLAR);
     else
-        token_data.type = TOKEN_WORD;
-    return (token_data);
+        return (TOKEN_WORD);
 }
 
-// analizza l'input e lo converte in una lista di token
-t_token_data  *lexer(char *input)
+void free_tokens(t_token_node *tokens)
 {
-    char            **words;
-    t_token_data    *tokens;
-    int             num_tokens;
-    int             i;
+    t_token_node *temp;
 
-    words = first_split(input);
-    if (!words)
-        return NULL;
-    num_tokens = count_tokens(words);
-    tokens = malloc(sizeof(t_token_data) * (num_tokens + 1));
-    if (!tokens)
-        return NULL;
-    i = 0;
-    num_tokens = 0;
-    while(words[i])
+    while (tokens)
     {
-        tokens[num_tokens] = give_token_type(words[i]);
-        num_tokens++;
-        free(words[i]);
-        i++;
+        temp = tokens;
+        tokens = tokens->next;
+        free(temp->token);
+        free(temp);
     }
-    free(words);
-    tokens[num_tokens].token = NULL;
-    return (tokens); 
 }
+
+void add_token_node(t_token_node **head, t_token_node **tail, t_token_node *new_node)
+{
+    if (!*head)
+        *head = new_node;
+    else
+        (*tail)->next = new_node;
+    *tail = new_node;
+}
+
+t_token_node *create_new_token_node(char *input, int start, int end)
+{
+    t_token_node *new_node;
+    char         *token_str;
+
+    new_node = NULL;
+    token_str = strndup(input + start, end - start);
+    if (!token_str)
+        return (NULL);
+    new_node = give_token_type(token_str);
+    free(token_str);
+    return (new_node);
+}
+
+t_token_node *lexer(char *input)
+{
+    t_token_node *head;
+    t_token_node *tail;
+    t_token_node *new_node;
+    int          i;
+    int          start;
+
+    head = NULL;
+    tail = NULL;
+    i = 0;
+    while (input[i])
+    {
+        while (input[i] == ' ')
+            i++;
+        start = i;
+        while (input[i] && input[i] != ' ')
+            i++;
+        if (i > start)
+        {
+            new_node = create_new_token_node(input, start, i);
+            if (new_node)
+                add_token_node(&head, &tail, new_node);
+        }
+    }
+    return (head);
+}
+

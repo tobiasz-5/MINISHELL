@@ -1,64 +1,47 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   miniheader.h                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/15 15:47:52 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/15 18:06:00 by negambar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#ifndef MINIHEADER_H
+# define MINIHEADER_H
 
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
+# include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-#define MAX_TOKENS 100
-
-#include "libft/libft.h"
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <unistd.h>
-#include <string.h>
-
-typedef enum    e_token_type
+typedef enum e_token_type
 {
-    TOKEN_PIPE = 0,
-    TOKEN_REDIR_APPEND = 1,
-    TOKEN_HEREDOC = 2,
-    TOKEN_REDIR_IN = 3,
-    TOKEN_REDIR_OUT = 4,
-    TOKEN_SINGLE_QUOTE = 5,
-    TOKEN_DOUBLE_QUOTE = 6,
-    TOKEN_DOLLAR = 7,
-    TOKEN_WORD = 8,
-}               t_token_type;
+    TOKEN_PIPE,
+    TOKEN_REDIR_APPEND,
+    TOKEN_HEREDOC,
+    TOKEN_REDIR_IN,
+    TOKEN_REDIR_OUT,
+    TOKEN_SINGLE_QUOTE,
+    TOKEN_DOUBLE_QUOTE,
+    TOKEN_DOLLAR,
+    TOKEN_WORD
+}   t_token_type;
 
-typedef struct  s_token_data
+typedef struct s_token_node
 {
-    char            *token;
-    t_token_type    type;
-}               t_token_data;
+    char                *token;
+    t_token_type        type;
+    struct s_token_node *next;
+}   t_token_node;
 
-// tokenizer.c
-const char *token_type_to_string(t_token_type type);
-char **realloc_tokens(char **tokens, int *capacity);
-int add_token(char **tokens, int *num_tokens, char *token);
-int     count_tokens(char **words);
-t_token_data    give_token_type(char *token);
-t_token_data  *lexer(char *input);
+void            handle_sigint(int sig);
+void            handle_sigquit(int sig);
+int             ft_strcmp(const char *s1, const char *s2);
+int             handle_builtins(char *input, char *cmd);
+const char      *token_type_to_string(t_token_type type);
+t_token_node    *lexer(char *input);
+void            process_input(char *input);
+void            free_tokens(t_token_node *tokens);
+t_token_type    determine_token_type(char *token_str);
+t_token_node    *give_token_type(char *token_str);
+t_token_node    *create_new_token_node(char *input, int start, int end);
+void            add_token_node(t_token_node **head, t_token_node **tail, t_token_node *new_node);
 
-// main.c
-char **first_split(char *input);
 
-// signals.c
-void handle_sigint(int sig);
-void handle_sigquit(int sig);
-int	 handle_builtins(char *input, char *cmd);
 
-#endif 
-
+#endif
