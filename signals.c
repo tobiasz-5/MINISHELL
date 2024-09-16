@@ -12,6 +12,7 @@
 
 #include "miniheader.h"
 
+
 // gestisce il segnale SIGINT (Ctrl+C)
 void handle_sigint(int sig)
 {
