@@ -19,7 +19,8 @@ typedef enum e_token_type
     TOKEN_SINGLE_QUOTE,
     TOKEN_DOUBLE_QUOTE,
     TOKEN_DOLLAR,
-    TOKEN_WORD
+    TOKEN_WORD,
+    TOKEN_UNKNOWN,
 }   t_token_type;
 
 typedef struct s_token_node
@@ -41,7 +42,5 @@ t_token_type    determine_token_type(char *token_str);
 t_token_node    *give_token_type(char *token_str);
 t_token_node    *create_new_token_node(char *input, int start, int end);
 void            add_token_node(t_token_node **head, t_token_node **tail, t_token_node *new_node);
-
-
 
 #endif

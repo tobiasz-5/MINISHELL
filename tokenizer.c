@@ -121,9 +121,9 @@ t_token_node *lexer(char *input)
     t_token_node *head;
     t_token_node *tail;
     t_token_node *new_node;
+    
     int          i;
     int          start;
-
     head = NULL;
     tail = NULL;
     i = 0;
