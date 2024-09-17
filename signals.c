@@ -15,11 +15,11 @@
 // gestisce il segnale SIGINT (Ctrl+C)
 void handle_sigint(int sig)
 {
-    (void)sig;
-    write(STDOUT_FILENO, "\n", 1);
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
+    (void)sig;                          // Disabilita il warning "unused parameter"
+    write(STDOUT_FILENO, "\n", 1);      // Sposta il cursore a capo
+    rl_on_new_line();                   // Notifica a readline che si è in una nuova riga
+    rl_replace_line("", 0);             // Sostituisce la linea di input (ex: dekjfke^C) con una stringa vuota.
+    rl_redisplay();                     // Ridisegna il prompt
 }
 
 // gestisce il segnale SIGQUIT (Ctrl+\)

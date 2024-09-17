@@ -40,24 +40,6 @@ const char *token_type_to_string(t_token_type type)
     }
 }
 
-t_token_node *give_token_type(char *token_str)
-{
-    t_token_node *token_node;
-
-    token_node = malloc(sizeof(t_token_node));
-    if (!token_node)
-        return (NULL);
-    token_node->token = strdup(token_str);
-    if (!token_node->token)
-    {
-        free(token_node);
-        return (NULL);
-    }
-    token_node->type = determine_token_type(token_str);
-    token_node->next = NULL;
-    return (token_node);
-}
-
 t_token_type determine_token_type(char *token_str)
 {
     if (ft_strcmp(token_str, "|") == 0)
@@ -86,36 +68,60 @@ void free_tokens(t_token_node *tokens)
 
     while (tokens)
     {
-        temp = tokens;
-        tokens = tokens->next;
-        free(temp->token);
-        free(temp);
+        temp = tokens;              // Salva il nodo corrente per poterlo liberare
+        tokens = tokens->next;      // Passa al nodo successivo
+        if (temp->token)            // Se non è NULL libera la memoria
+            free(temp->token);
+        free(temp);                 // Libera il nodo corrente
     }
 }
 
 void add_token_node(t_token_node **head, t_token_node **tail, t_token_node *new_node)
 {
-    if (!*head)
-        *head = new_node;
+    if (!*head)                     // Se la lista è vuota (head == NULL)
+        *head = new_node;           // Il nuovo nodo diventa la testa
     else
-        (*tail)->next = new_node;
-    *tail = new_node;
+        (*tail)->next = new_node;   // Collega l'ultimo nodo della lista al nuovo nodo
+    *tail = new_node;               // Aggiorna il puntatore tail per farlo puntare al nuovo ultimo nodo
 }
 
-t_token_node *create_new_token_node(char *input, int start, int end)
+
+//  Crea un nuovo nodo, copia il token stringa, determina il tipo e restituisce il puntatore al nodo creato
+t_token_node *create_token_node(char *token_str)
+{
+    t_token_node *token_node;
+
+    token_node = malloc(sizeof(t_token_node));
+    if (!token_node)
+        return (NULL);
+    token_node->token = strdup(token_str);              //Copia la stringa token nel campo token del nodo
+    if (!token_node->token)
+    {
+        free(token_node);
+        return (NULL);
+    }
+    token_node->type = determine_token_type(token_str); //Determina il tipo del token
+    token_node->next = NULL;                            //Imposta il campo next a NULL per garantire che il nodo sia l'ultimo della lista
+    return (token_node);
+}
+
+// Estrae il token dalla stringa di input e lo passa alla funzione create_token_node
+t_token_node *extract_token_str(char *input, int start, int end)
 {
     t_token_node *new_node;
     char         *token_str;
 
     new_node = NULL;
-    token_str = strndup(input + start, end - start);
+    token_str = strndup(input + start, end - start);    //Estrae la sottostringa dall'input
     if (!token_str)
         return (NULL);
-    new_node = give_token_type(token_str);
-    free(token_str);
+    new_node = create_token_node(token_str);            //Crea un nuovo nodo con la sottostringa estratta
+    free(token_str);                                    //Libera la sottostringa creata con strndup
     return (new_node);
 }
 
+
+// Divide la stringa di input in token e restituisce una lista concatenata di token
 t_token_node *lexer(char *input)
 {
     t_token_node *head;
@@ -131,14 +137,14 @@ t_token_node *lexer(char *input)
     {
         while (input[i] == ' ')
             i++;
-        start = i;
-        while (input[i] && input[i] != ' ')
+        start = i;                              //  Salva la posizione iniziale del token
+        while (input[i] && input[i] != ' ')     //  Trova la fine del token o della stringa
             i++;
-        if (i > start)
+        if (i > start)                          //  Se la lunghezza del token è maggiore di 0
         {
-            new_node = create_new_token_node(input, start, i);
-            if (new_node)
-                add_token_node(&head, &tail, new_node);
+            new_node = extract_token_str(input, start, i);
+            if (new_node)                        //  Se la creazione del nodo è andata a buon fine
+                add_token_node(&head, &tail, new_node); //  Aggiungi il nodo alla lista
         }
     }
     return (head);

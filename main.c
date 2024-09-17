@@ -40,12 +40,12 @@ int main(void)
     while (1)
     {
         input = readline("MINIPROMPT$ ");
-        if (!input)
+        if (!input)                             // Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
         {
             printf("\nFarewell my friend\n");
             break;
         }
-        if (*input == '\0')
+        if (*input == '\0')                     // Per non aggiungere linee vuote alla history (Enter e' infatti un input vuoto)
         {
             free(input);
             continue;
@@ -58,6 +58,6 @@ int main(void)
         process_input(input);
         free(input);
     }
-    rl_clear_history();
+    rl_clear_history();                         // Pulisce la history prima di uscire
     return (0);
 }

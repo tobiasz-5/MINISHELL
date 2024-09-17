@@ -39,8 +39,8 @@ t_token_node    *lexer(char *input);
 void            process_input(char *input);
 void            free_tokens(t_token_node *tokens);
 t_token_type    determine_token_type(char *token_str);
-t_token_node    *give_token_type(char *token_str);
-t_token_node    *create_new_token_node(char *input, int start, int end);
+t_token_node    *create_token_node(char *token_str);
+t_token_node    *extract_token_str(char *input, int start, int end);
 void            add_token_node(t_token_node **head, t_token_node **tail, t_token_node *new_node);
 
 #endif
