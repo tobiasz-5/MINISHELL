@@ -15,11 +15,14 @@
 static char *ft_strcpy(char *s)
 {
 	char *cpy;
+	int i;
 
-	int i = 0;
+	i = 0;
 	while (s[i])
 		i++;
 	cpy = (char *)malloc(sizeof(char) *(i+1));
+	if (!cpy)
+		return (NULL);
 	i = 0;
 	while(s[i])
 	{
@@ -50,4 +53,5 @@ void ft_echo(char *input, int n)
 		n++;
 	}
 	write(1, "\n", 1);
+	free(cpy);
 }
