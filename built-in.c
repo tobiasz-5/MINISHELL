@@ -47,11 +47,18 @@ void ft_echo(char *input, int n)
 {
 	char *cpy;
 	cpy = ft_strcpy(input);
+	if (!cpy)
+		return ;
+	if (ft_strncmp(cpy, "echo -n", 6) == 0)
+		n = 8;
+	else
+		n = 5;
 	while(cpy[n])
 	{
 		write(1, &cpy[n], 1);
 		n++;
 	}
-	write(1, "\n", 1);
+	if (ft_strncmp(input, "echo -n", 6) != 0)
+		write(1, "\n", 1);
 	free(cpy);
 }
