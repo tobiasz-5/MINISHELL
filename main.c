@@ -55,6 +55,10 @@ int main(void)
             free(input);
             break;
         }
+		if (ft_strncmp(input, "echo ", 4) == 0)
+		{
+			ft_echo(input, 5);
+		}
         process_input(input);
         free(input);
     }

@@ -12,6 +12,24 @@
 
 #include "miniheader.h"
 
+static char *ft_strcpy(char *s)
+{
+	char *cpy;
+
+	int i = 0;
+	while (s[i])
+		i++;
+	cpy = (char *)malloc(sizeof(char) *(i+1));
+	i = 0;
+	while(s[i])
+	{
+		cpy[i] = s[i];
+		i++;
+	}
+	cpy[i] = '\0';
+	return(cpy);
+}
+
 int handle_builtins(char *input, char *cmd)
 {
 	if (ft_strcmp(input, cmd) == 0)
@@ -20,4 +38,16 @@ int handle_builtins(char *input, char *cmd)
 		return (1);
 	}
 	return (0);
+}
+
+void ft_echo(char *input, int n)
+{
+	char *cpy;
+	cpy = ft_strcpy(input);
+	while(cpy[n])
+	{
+		write(1, &cpy[n], 1);
+		n++;
+	}
+	write(1, "\n", 1);
 }

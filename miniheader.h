@@ -33,7 +33,9 @@ typedef struct s_token_node
 void            handle_sigint(int sig);
 void            handle_sigquit(int sig);
 int             ft_strcmp(const char *s1, const char *s2);
+int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int             handle_builtins(char *input, char *cmd);
+void			ft_echo(char *input, int n);
 const char      *token_type_to_string(t_token_type type);
 t_token_node    *lexer(char *input);
 void            process_input(char *input);
