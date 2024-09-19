@@ -2,7 +2,7 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 LDFLAGS = -lreadline
-SRCS = 	main.c tokenizer.c signals.c built-in.c echo.c utils.c
+SRCS = 	main.c tokenizer.c signals.c built-in.c echo.c echo_utils.c utils.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME) mini_art

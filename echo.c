@@ -25,7 +25,7 @@ static void append_char(char *cpy, int *j, char c)
     (*j)++;
 }
 
-static int skip_white(char c, int *in_word, char *cpy, int *j)
+int skip_white(char c, int *in_word, char *cpy, int *j)
 {
     if (is_white(c))
     {
@@ -39,51 +39,28 @@ static int skip_white(char c, int *in_word, char *cpy, int *j)
     return (0);
 }
 
-static char *ft_strcpy_no_space(char *s)
-{
-    char *cpy;
-    int i;
-    int j;
-    int in_word;
-
-    cpy = (char *)malloc(strlen(s) + 1);
-    if (!cpy)
-        return (NULL);
-    i = 0;
-    j = 0;
-    in_word = 0;
-    while (s[i])
-    {
-        if (!skip_white(s[i], &in_word, cpy, &j))
-            append_char(cpy, &j, s[i]);
-        if (!skip_white(s[i], &in_word, cpy, &j))
-            in_word = 1;
-        i++;
-    }
-    if (j > 0 && cpy[j - 1] == ' ')
-        j--;
-    cpy[j] = '\0';
-    return (cpy);
-}
-
 void ft_echo(char *input)
 {
-	char *cpy;
-	int n_flag = 0;
-	int start = 5;
+	int flag;
+	int flag_quotes;
+	int i;
+	char *echo = "echo ";
 
-	cpy = ft_strcpy_no_space(input);
-	if (!cpy)
-		return;
-	if (strncmp(cpy, "echo -n", 7) == 0 && (is_white(cpy[7]) || cpy[7] == '\0'))
+	flag_quotes = closed_quote(input, ft_strlen(echo));
+	i = 0;
+	flag = check_forn(input, i);
+	while (input[i] == echo[i])
+		i++;
+	if (flag)
+		i+=3;
+	while (input[i])
 	{
-		n_flag = 1;
-		start = 8;
+		if (input[i] == '"' && flag_quotes)
+			i++;
+		else if (input[i] == '"' && !flag_quotes)
+			write(1, &input[i++], 1);
+		write(1, &input[i++], 1);
 	}
-	while (cpy[start] && is_white(cpy[start]))
-		start++;
-	write(1, &cpy[start], strlen(&cpy[start]));
-	if (!n_flag)
+	if (!flag)
 		write(1, "\n", 1);
-	free(cpy);
 }

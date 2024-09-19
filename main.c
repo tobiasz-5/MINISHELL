@@ -30,36 +30,35 @@ void process_input(char *input)
     free_tokens(tokens);
 }
 
+void init_sign(void)
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, handle_sigquit);
+}
 
 int main(void)
 {
-    char *input;
+	char	*input;
 
-    signal(SIGINT, handle_sigint);
-    signal(SIGQUIT, handle_sigquit);
-    while (1)
-    {
-        input = readline("MINIPROMPT$ ");
-        if (!input)                             // Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
-        {
-            printf("\nFarewell my friend\n");
-            break;
-        }
-        if (*input == '\0')                     // Per non aggiungere linee vuote alla history (Enter e' infatti un input vuoto)
-        {
-            free(input);
-            continue;
-        }
-        if (handle_builtins(input, "exit"))
-        {
-            free(input);
-            break;
-        }
+	init_sign();
+	while (1)
+	{
+		input = readline("MINIPROMPT$ ");
+		if (!input || handle_builtins(input, "exit"))                             // Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
+		{
+			printf("\nFarewell my friend\n");
+			break;
+		}
+		if (*input == '\0')                     // Per non aggiungere linee vuote alla history (Enter e' infatti un input vuoto)
+		{
+			free(input);
+			continue;
+		}
 		if (ft_strncmp(input, "echo ", 4) == 0)
 			ft_echo(input);
-        process_input(input);
-        free(input);
-    }
-    rl_clear_history();                         // Pulisce la history prima di uscire
-    return (0);
+		process_input(input);
+		free(input);
+	}
+	rl_clear_history();                         // Pulisce la history prima di uscire
+	return (0);
 }

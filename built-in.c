@@ -17,7 +17,6 @@ int handle_builtins(char *input, char *cmd)
 {
 	if (ft_strcmp(input, cmd) == 0)
 	{
-		printf("Farewell my friend\n");
 		return (1);
 	}
 	return (0);
