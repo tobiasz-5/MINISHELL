@@ -12,19 +12,30 @@
 
 #include "miniheader.h"
 
-void process_input(char *input)
+void process_input(char *input)		// Funzione che processa l'intero input dell'utente
 {
-    t_token_node *tokens;
+    t_token_node *tokens;	       // Variabile che conterrà la lista di token			
     t_token_node *current;
 
     add_history(input);
     tokens = lexer(input);
+	if (!tokens) 
+	{
+	    fprintf(stderr, COLOR_RED "Error creating tokens.\n"COLOR_RESET);
+    	return;
+	}
     current = tokens;
-    while (current)
+    while (current)			// Toglieremo le print e manderemo i token al parser per l'esecuzione dei comandi
     {
         printf("Token: %s \t Type: %s\n",
                current->token,
                token_type_to_string(current->type));
+        if (current->single_quote)
+            printf("Single quote: true\n");
+        else if (current->double_quote)
+            printf("Double quote: true\n");
+        else
+            printf("No quotes\n");
         current = current->next;
     }
     free_tokens(tokens);
@@ -36,17 +47,23 @@ void init_sign(void)
 	signal(SIGQUIT, handle_sigquit);
 }
 
-int main(void)
+int main(int ac, char **av)
 {
 	char	*input;
 
+	if (ac > 1)
+	{
+		printf(COLOR_RED"Usage: %s\t [No Additional Arguments]\n"COLOR_RESET, av[0]);
+		return (1);
+	}
 	init_sign();
 	while (1)
 	{
-		input = readline("MINIPROMPT$ ");
+		input = readline(MAGENTA"MINIPROMPT$ "COLOR_RESET);
 		if (!input || handle_builtins(input, "exit"))                             // Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
 		{
-			printf("\nFarewell my friend\n");
+			printf(COLOR_ORANGE"\nFarewell my friend\n"COLOR_RESET);
+			free(input);
 			break;
 		}
 		if (*input == '\0')                     // Per non aggiungere linee vuote alla history (Enter e' infatti un input vuoto)
