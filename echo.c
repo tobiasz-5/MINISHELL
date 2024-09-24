@@ -46,7 +46,7 @@ void ft_echo(char *input)
 	int i;
 	char *echo = "echo ";
 
-	flag_quotes = closed_quote(input, ft_strlen(echo));
+	flag_quotes = closed_quote(input, ft_strlen(input));
 	i = 0;
 	flag = check_forn(input, i);
 	while (input[i] == echo[i])
