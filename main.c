@@ -73,6 +73,8 @@ int main(int ac, char **av)
 		}
 		if (ft_strncmp(input, "echo ", 4) == 0)
 			ft_echo(input);
+		if (ft_strncmp(input, "ls", 4) == 0)
+			ls();
 		process_input(input);
 		free(input);
 	}
