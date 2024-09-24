@@ -2,7 +2,7 @@
 # define MINIHEADER_H
 
 # define COLOR_RED "\033[31m"      // Colore rosso
-# define MAGENTA "\033[1;34m"   
+# define BLUE "\033[1;34m"   
 # define COLOR_ORANGE "\033[1;38;5;208m"  // Colore arancione
 # define COLOR_RESET "\033[0m"     // Reset del colore
 
@@ -76,7 +76,5 @@ int             handle_token_error(t_token_state *state);
 void            init_lexer_vars(t_token_node **head, t_token_node **tail, t_token_state *state, int *i, int *result);
 int             process_next_token(char *input, int i, t_token_state *state, t_token_node **head, t_token_node **tail);
 int             append_to_temp_token_str(t_token_state *state, char *temp_token);
-
-void            ls(void);
 
 #endif

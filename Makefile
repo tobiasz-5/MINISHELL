@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 LDFLAGS = -lreadline
 SRCS = 	main.c lexer_token.c signals.c built-in.c echo.c echo_utils.c \
 		utils.c token_type.c tokenizer_utils.c token_analyze_utils.c \
-		process_token.c lexer_utils.c free_tokens.c ls.c
+		process_token.c lexer_utils.c free_tokens.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME) mini_art

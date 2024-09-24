@@ -47,19 +47,13 @@ void init_sign(void)
 	signal(SIGQUIT, handle_sigquit);
 }
 
-int main(int ac, char **av)
+void shell_loop(void)
 {
 	char	*input;
 
-	if (ac > 1)
-	{
-		printf(COLOR_RED"Usage: %s\t [No Additional Arguments]\n"COLOR_RESET, av[0]);
-		return (1);
-	}
-	init_sign();
 	while (1)
 	{
-		input = readline(MAGENTA"MINIPROMPT$ "COLOR_RESET);
+		input = readline(BLUE"MINIPROMPT$ "COLOR_RESET);
 		if (!input || handle_builtins(input, "exit"))                             // Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
 		{
 			printf(COLOR_ORANGE"\nFarewell my friend\n"COLOR_RESET);
@@ -73,11 +67,17 @@ int main(int ac, char **av)
 		}
 		if (ft_strncmp(input, "echo ", 4) == 0)
 			ft_echo(input);
-		if (ft_strncmp(input, "ls", 4) == 0)
-			ls();
 		process_input(input);
 		free(input);
 	}
 	rl_clear_history();                         // Pulisce la history prima di uscire
+}
+
+int main(int ac, char **av)
+{
+	if (ac > 1)
+		return (printf(COLOR_RED"Usage: %s\t [No Additional Arguments]\n"COLOR_RESET, av[0]), 1);
+	init_sign();
+	shell_loop();
 	return (0);
 }
