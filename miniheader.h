@@ -12,6 +12,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <signal.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -75,5 +76,7 @@ int             handle_token_error(t_token_state *state);
 void            init_lexer_vars(t_token_node **head, t_token_node **tail, t_token_state *state, int *i, int *result);
 int             process_next_token(char *input, int i, t_token_state *state, t_token_node **head, t_token_node **tail);
 int             append_to_temp_token_str(t_token_state *state, char *temp_token);
+
+void            ls(void);
 
 #endif
