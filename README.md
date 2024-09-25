@@ -44,5 +44,3 @@ This project is a custom implementation of a simple shell in C. The shell is cap
     ls -l | grep "txt" > output.txt
     ```
 
-## Project Structure
-
