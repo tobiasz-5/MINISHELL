@@ -10,6 +10,42 @@ https://www.notion.so/minishell-a9fbbe1e7972431890222f7b0ce04eb6
 ◦ env with no options or arguments
 ◦ exit with no options
 
-
-
 ECHO NON DEVE STAMPARE LE VIRGOLETTE E GLI \
+
+LEXING: 
+ls -l | grep "txt"
+
+Il lexer suddivide il comando ls -l | grep "txt" in token:
+    ls: comando.
+    -l: argomento del comando ls.
+    |: operatore pipe.
+    grep: comando.
+    "txt": argomento del comando grep.
+
+PARSING:
+ls -l | grep "txt"
+
+Il parser, con questi token, costruisce l'albero rispettando la grammatica della shell:
+    Riconosce che ls -l è un comando seguito da un argomento.
+    Riconosce che | è una pipe che collega due comandi.
+    Riconosce che grep "txt" è un altro comando, con un argomento "txt".
+
+Ecco una rappresentazione schematica dell'albero sintattico:
+
+               PIPE
+              /    \
+           CMD     CMD
+         /   \     /    \
+      ls    -l   grep  "txt"
+
+Nodo radice - PIPE:
+    L'operatore | (pipe) è il nodo principale, poiché è l'operatore che collega due comandi.
+    La pipe indica che l'output del comando a sinistra (ls -l) verrà passato come input al comando a destra (grep "txt").
+
+Comando ls -l:
+    Il ramo sinistro dell'albero parte da PIPE e porta a un nodo CMD, che rappresenta il comando ls.
+    Il comando ls ha un argomento -l, che viene rappresentato come un nodo figlio.
+
+Comando grep "txt":
+    Il ramo destro dell'albero parte da PIPE e porta a un altro nodo CMD, che rappresenta il comando grep.
+    Il comando grep ha un argomento "txt", che è rappresentato come un nodo figlio.
