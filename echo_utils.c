@@ -37,6 +37,9 @@ int check_forn(char *input, int i)
 	{	
 		if (input[i] == '-' && input[i+1] == 'n')
 			flag = 1;
+		if (input[i] != 'e' && input[i] != 'c' && input[i] != 'h' 
+				&& input[i] != 'o' && input[i] != ' ')
+				break;
 		i++;
 	}
 	return (flag);
