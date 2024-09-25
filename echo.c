@@ -44,6 +44,7 @@ void ft_echo(char *input)
 	int flag;
 	int flag_quotes;
 	int i;
+	int j;
 	char *echo = "echo";
 
 	flag_quotes = closed_quote(input, ft_strlen(input));
@@ -52,8 +53,9 @@ void ft_echo(char *input)
 	while (input[i] == echo[i])
 		i++;
 	i = skip_spaces(input, i);
+	j = i + 2;
 	if (flag)
-		i+=3;
+		i = skip_spaces(input, j);
 	while (input[i])
 	{
 		if (input[i] == '"' && flag_quotes)
