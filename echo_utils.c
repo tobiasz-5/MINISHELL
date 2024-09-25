@@ -31,13 +31,17 @@ int closed_quote(char *str, int i)
 int check_forn(char *input, int i)
 {
 	int flag;
+	char *s;
 
+	s = "echo -n ";
 	flag = 0;
 	while (input[i])
 	{	
-		if (input[i] == '-' && input[i+1] == 'n')
-			flag = 1;
+		if (input[i] == s[i])
+			flag++;
 		i++;
 	}
+	if (flag != 0)
+		flag = 1;
 	return (flag);
 }

@@ -51,6 +51,7 @@ void ft_echo(char *input)
 	flag = check_forn(input, i);
 	while (input[i] == echo[i])
 		i++;
+	i = skip_spaces(input, i);
 	if (flag)
 		i+=3;
 	while (input[i])
