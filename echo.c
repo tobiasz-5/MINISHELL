@@ -44,7 +44,7 @@ void ft_echo(char *input)
 	int flag;
 	int flag_quotes;
 	int i;
-	char *echo = "echo ";
+	char *echo = "echo";
 
 	flag_quotes = closed_quote(input, ft_strlen(input));
 	i = 0;

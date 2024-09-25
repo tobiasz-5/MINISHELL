@@ -65,7 +65,7 @@ void shell_loop(void)
 			free(input);
 			continue;
 		}
-		if (ft_strncmp(input, "echo ", 4) == 0)
+		if (ft_strncmp(input, "echo", 3) == 0)
 			ft_echo(input);
 		process_input(input);
 		free(input);
