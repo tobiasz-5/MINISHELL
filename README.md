@@ -20,10 +20,6 @@ This project is a custom implementation of a simple shell in C. The shell is cap
 - **Environment Variables**: Variables can be set and expanded during command execution.
 - **Built-in Commands**: Common shell commands like `cd`, `exit`, `echo`, and others are implemented directly in the shell.
   
-## Technologies
-
-- **C Language**: The entire shell is written in C.
-- **Lex and Yacc**: Used for tokenizing and parsing command-line input.
   
 ## Usage
 
