@@ -1,6 +1,5 @@
-NOTION LINK:
-https://www.notion.so/minishell-a9fbbe1e7972431890222f7b0ce04eb6
-
+NOTion link:
+https://www.fanculo-notion-non-funziona-diahane/minishell-a9fbbe1e7972431890222f7b0ce04eb6
 
 ◦ echo with option -n
 ◦ cd with only a relative or absolute path
@@ -12,40 +11,59 @@ https://www.notion.so/minishell-a9fbbe1e7972431890222f7b0ce04eb6
 
 ECHO NON DEVE STAMPARE LE VIRGOLETTE E GLI \
 
-LEXING: 
-ls -l | grep "txt"
-
-Il lexer suddivide il comando ls -l | grep "txt" in token:
-    ls: comando.
-    -l: argomento del comando ls.
-    |: operatore pipe.
-    grep: comando.
-    "txt": argomento del comando grep.
-
 PARSING:
 ls -l | grep "txt"
+Anziche' usare la struttura ad albero i token potrebbero essere salvati in una lista o array
+che li rappresenta linearmente. Il parser, invece di costruire nodi e rami come in un albero,
+accumula informazioni in una struttura lineare, come un array di comandi o una tabella dei comandi.
+Se il comando è ls -al | grep txt > out.txt, i token verranno riconosciuti come:
+    ls      COMMAND
+    -al     OPTION
+    |       PIPELINE
+    grep    COMMAND
+    "txt"   ARGUMENT
+    >       REDIRECT_OUT
+    out.txt OUTFILE
 
-Il parser, con questi token, costruisce l'albero rispettando la grammatica della shell:
-    Riconosce che ls -l è un comando seguito da un argomento.
-    Riconosce che | è una pipe che collega due comandi.
-    Riconosce che grep "txt" è un altro comando, con un argomento "txt".
+Durante il parsing, si possono distinguere facilmente comandi e argomenti/opzioni perché
+i comandi sono solitamente i primi token trovati, seguiti dagli argomenti.
+Quando il lexer incontra un comando, crea una nuova entry nella tabella dei comandi
+(o un array di strutture) per registrare il comando e le relative opzioni/argomenti.
 
-Ecco una rappresentazione schematica dell'albero sintattico:
+Redirezioni (<, >, >>) e pipe (|) vengono trattati semplicemente come parte del flusso lineare.
+Quando viene riconosciuto un token di redirezione (>, <, >>), il token successivo (file di input/output)
+viene associato alla redirezione corrente e memorizzato nella struttura di comando.
+Ad esempio, per il comando ls > out.txt, il parser riconosce il > e lo associa al file out.txt.
+Per le pipe (|), il parser capisce che l'output del comando precedente deve essere collegato
+all'input del comando successivo. La pipe potrebbe essere semplicemente un segno che indica che
+la parte successiva del comando deve essere eseguita in un processo separato con l'output rediretto.
 
-               PIPE
-              /    \
-           CMD     CMD
-         /   \     /    \
-      ls    -l   grep  "txt"
+Il risultato finale del parsing senza un albero sarà una tabella o un array che contiene i comandi,
+gli argomenti, le redirezioni e le pipe in una sequenza ordinata. Questa struttura sarà sufficiente per
+eseguire i comandi direttamente, senza bisogno di navigare in una struttura ad albero.
 
-Nodo radice - PIPE:
-    L'operatore | (pipe) è il nodo principale, poiché è l'operatore che collega due comandi.
-    La pipe indica che l'output del comando a sinistra (ls -l) verrà passato come input al comando a destra (grep "txt").
+Array di comandi:
+struct Command {
+    char* cmd;      // Il comando eseguibile, es: "ls"
+    char** args;    // Lista degli argomenti/opzioni
+    char* infile;   // Input redirezionato
+    char* outfile;  // Output redirezionato
+    bool append;    // Indica se usare ">>" per l'output
+    bool background;// Indica se il comando deve essere eseguito in background
+};
+Command commands[MAX_COMMANDS]; // Array di comandi
 
-Comando ls -l:
-    Il ramo sinistro dell'albero parte da PIPE e porta a un nodo CMD, che rappresenta il comando ls.
-    Il comando ls ha un argomento -l, che viene rappresentato come un nodo figlio.
+Tabella di comandi:
+Command[0]: 
+    cmd = "ls", args = {"-al"}, infile = NULL, outfile = NULL, pipe = true
+Command[1]:
+    cmd = "grep", args = {"txt"}, infile = NULL, outfile = "out.txt", pipe = false
 
-Comando grep "txt":
-    Il ramo destro dell'albero parte da PIPE e porta a un altro nodo CMD, che rappresenta il comando grep.
-    Il comando grep ha un argomento "txt", che è rappresentato come un nodo figlio.
+
+Una volta costruita la tabella (o array) dei comandi, il passo successivo è passare alla fase di esecuzione
+
+
+
+
+
+
