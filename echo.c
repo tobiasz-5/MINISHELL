@@ -12,50 +12,44 @@
 
 #include "miniheader.h"
 
-static int is_white(char c)
+static int	skip_white(char *input, int flag, int i)
 {
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r')
-		return (1);
-	return (0);
-}
+	int	j;
 
-static void append_char(char *cpy, int *j, char c)
-{
-    cpy[*j] = c;
-    (*j)++;
-}
-
-int skip_white(char c, int *in_word, char *cpy, int *j)
-{
-    if (is_white(c))
-    {
-        if (*in_word)
-        {
-            append_char(cpy, j, ' ');
-            *in_word = 0;
-        }
-        return (1);
-    }
-    return (0);
-}
-
-void ft_echo(char *input)
-{
-	int flag;
-	int flag_quotes;
-	int i;
-	int j;
-	char *echo = "echo";
-
-	flag_quotes = closed_quote(input, ft_strlen(input));
-	i = 0;
-	flag = check_forn(input, i);
-	while (input[i] == echo[i])
-		i++;
+	j = 0;
 	i = skip_spaces(input, i);
 	j = i + 2;
 	if (flag)
 		i = skip_spaces(input, j);
+	return (i);
+}
+
+static int	skip_echo(char *echo, char *input, int i)
+{
+	while (echo[i])
+	{
+		if (input[i] != echo[i])
+			return (-99999);
+		i++;
+	}
+	return (i);
+}
+
+void	ft_echo(char *input)
+{
+	int		flag;
+	int		flag_quotes;
+	int		i;
+	char	*echo;
+
+	echo = "echo ";
+	flag_quotes = closed_quote(input, ft_strlen(input));
+	i = 0;
+	flag = check_forn(input, i);
+	i = skip_echo(echo, input, i);
+	if (i < 0)
+		return ;
+	i = skip_white(input, flag, i);
 	while (input[i])
 	{
 		if (input[i] == '"' && flag_quotes)

@@ -12,9 +12,9 @@
 
 #include "miniheader.h"
 
-int closed_quote(char *str, int i)
+int	closed_quote(char *str, int i)
 {
-	int quote;
+	int	quote;
 
 	quote = 0;
 	while (i >= 0)
@@ -28,18 +28,18 @@ int closed_quote(char *str, int i)
 	return (1);
 }
 
-int check_forn(char *input, int i)
+int	check_forn(char *input, int i)
 {
-	int flag;
+	int	flag;
 
 	flag = 0;
 	while (input[i])
-	{	
-		if (input[i] == '-' && input[i+1] == 'n')
+	{
+		if (input[i] == '-' && input[i + 1] == 'n')
 			flag = 1;
-		if (input[i] != 'e' && input[i] != 'c' && input[i] != 'h' 
-				&& input[i] != 'o' && input[i] != ' ')
-				break;
+		if (input[i] != 'e' && input[i] != 'c' && input[i] != 'h'
+			&& input[i] != 'o' && input[i] != ' ')
+			break ;
 		i++;
 	}
 	return (flag);

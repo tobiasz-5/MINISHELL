@@ -74,7 +74,7 @@ void shell_loop(void)
 int main(int ac, char **av)
 {
 	if (ac > 1)
-		return (printf(COLOR_RED"Usage: %s\t [No Additional Arguments]\n"COLOR_RESET, av[0]), 1);
+		return (printf(COLOR_RED"Usage: %s\t[No Additional Arguments]\n"COLOR_RESET, av[0]), 1);
 	init_sign();
 	shell_loop();
 	return (0);
