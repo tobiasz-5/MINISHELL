@@ -32,6 +32,8 @@ static int	skip_echo(char *echo, char *input, int i)
 			return (-99999);
 		i++;
 	}
+	if (input[i] != ' ' && input[i] != '\0')
+		return(-9999);
 	return (i);
 }
 
@@ -42,7 +44,7 @@ void	ft_echo(char *input)
 	int		i;
 	char	*echo;
 
-	echo = "echo ";
+	echo = "echo";
 	flag_quotes = closed_quote(input, ft_strlen(input));
 	i = 0;
 	flag = check_forn(input, i);
