@@ -16,6 +16,8 @@
 int handle_builtins(char *input, char *cmd)
 {
 	(void)cmd;
+	while (*input == ' ')
+		input++;
 	if (ft_strncmp(input, "exit", 4) == 0)
 	{
 		return (1);
