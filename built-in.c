@@ -13,7 +13,7 @@
 #include "miniheader.h"
 
 
-int handle_builtins(char *input, char *cmd)
+int handle_builtins(t_mini	**mini)
 {
 	(void)cmd;
 	while (*input == ' ')

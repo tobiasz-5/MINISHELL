@@ -12,7 +12,7 @@
 
 #include "miniheader.h"
 
-void process_input(char *input)		// Funzione che processa l'intero input dell'utente
+void process_input(char *input, t_mini **mini)// Funzione che processa l'intero input dell'utente
 {
     t_token_node *tokens;	       // Variabile che conterrà la lista di token			
     t_token_node *current;
@@ -21,23 +21,21 @@ void process_input(char *input)		// Funzione che processa l'intero input dell'ut
     tokens = lexer(input);
 	if (!tokens) 
 	{
-	    fprintf(stderr, COLOR_RED "Error creating tokens.\n"COLOR_RESET);
+	    printf(stderr, COLOR_RED "Error creating tokens.\n"COLOR_RESET);
     	return;
 	}
     current = tokens;
-    while (current)			// Toglieremo le print e manderemo i token al parser per l'esecuzione dei comandi
-    {
-        printf("Token: %s \t Type: %s\n",
-               current->token,
-               token_type_to_string(current->type));
-        if (current->single_quote)
-            printf("Single quote: true\n");
-        else if (current->double_quote)
-            printf("Double quote: true\n");
-        else
-            printf("No quotes\n");
-        current = current->next;
-    }
+	while (current != NULL)
+	{
+		ft_update_mini(*mini, current);//TODO aggiorna cmd, pipe, redirect per eseguirli
+		ft_pipe_or_redirect(mini);//TODO controlla se ci sono pipe o meno e in caso li inizializa
+		if (ft_check_cmd((*mini)->cmd) == 1)//TODO 1 builtin | 2 execv 
+			handle_builtins(mini);//upgrade gestione builtin
+		else
+			ft_execv(mini);//TODO
+		ft_update_pipe(mini);//TODO se ce la pipe la chiude
+		current = current->next;
+	}
     free_tokens(tokens);
 }
 
@@ -49,12 +47,14 @@ void init_sign(void)
 
 void shell_loop(void)
 {
+	t_mini	*mini;
 	char	*input;
 
+	mini = ft_mini_init();//TODO
 	while (1)
 	{
 		input = readline(BLUE"MINIPROMPT$ "COLOR_RESET);
-		if (!input || handle_builtins(input, "exit"))                             // Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
+		if (!input || ft_strncmp(input, "exit", 4) == 0)                             // Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
 		{
 			printf(COLOR_ORANGE"\nFarewell my friend\n"COLOR_RESET);
 			free(input);
@@ -65,14 +65,16 @@ void shell_loop(void)
 			free(input);
 			continue;
 		}
-		process_input(input);
+		process_input(input, &mini);
 		free(input);
 	}
+	ft_free_mini(mini);//TODO
 	rl_clear_history();                         // Pulisce la history prima di uscire
 }
 
-int main(int ac, char **av)
+int main(int ac, char **av, char **env)
 {
+	void(av);
 	if (ac > 1)
 		return (printf(COLOR_RED"Usage: %s\t[No Additional Arguments]\n"COLOR_RESET, av[0]), 1);
 	init_sign();
