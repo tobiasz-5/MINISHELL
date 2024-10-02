@@ -27,5 +27,10 @@ int handle_builtins(char *input, char *cmd)
 			ft_echo(input);
 			return (0);
 	}
+	else if (ft_strncmp(input, "pwd", 3) == 0)
+	{
+			ft_pwd();
+			return (0);
+	}
 	return (0);
 }
