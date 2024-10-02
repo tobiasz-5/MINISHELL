@@ -64,6 +64,7 @@ int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_strlen(const char *s);
 int				handle_builtins(char *input, char *cmd);
+void			ft_pwd();
 void			ft_echo(char *input);
 void			init_sign(void);
 int				closed_quote(char *str, int i);
