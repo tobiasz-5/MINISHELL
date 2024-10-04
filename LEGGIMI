@@ -1,6 +1,10 @@
 NOTion link:
 https://www.fanculo-notion-non-funziona-diahane/minishell-a9fbbe1e7972431890222f7b0ce04eb6
 
+TO FIX :
+. sostiuire funzoni non ammesse con le funzioni di libft
+
+BULTINS : 
 ◦ echo with option -n
 ◦ cd with only a relative or absolute path
 ✅ pwd with no options
