@@ -1,31 +1,26 @@
 #include "miniheader.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+void	ft_free_env(t_env **env)
 {
-	size_t	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	if ((*env)->env_old)
+		ft_free_mtx((*env)->env_old);
+	if ((*env)->env_new)
+		ft_free_mtx((*env)->env_new);
+	free((*env));
 }
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void	ft_free_exp(t_exp **export)
 {
-	size_t	i;
+	t_exp	*ptr;
 
-	i = 0;
-	while (i < n && s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
-
-int ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	ptr = (*export);
+	while (ptr)
+	{
+		if ((*ptr)->name)
+			free((*ptr)->name);
+		if ((*ptr)->)
+			free((*ptr)->value);
+		ptr = ptr->next;
+	}
+	free((*export));
 }

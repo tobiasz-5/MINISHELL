@@ -18,11 +18,7 @@ int handle_builtins(t_mini	**mini)
 	(void)cmd;
 	while (*input == ' ')
 		input++;
-	if (ft_strncmp(input, "exit", 4) == 0)
-	{
-		return (1);
-	}
-	else if (ft_strncmp(input, "echo", 3) == 0)
+	if (ft_strncmp(input, "echo", 3) == 0)
 	{
 			ft_echo(input);
 			return (0);

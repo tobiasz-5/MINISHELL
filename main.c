@@ -45,16 +45,18 @@ void init_sign(void)
 	signal(SIGQUIT, handle_sigquit);
 }
 
-void shell_loop(void)
+void shell_loop(char **env)
 {
 	t_mini	*mini;
 	char	*input;
 
-	mini = ft_mini_init();//TODO
+	mini = ft_mini_init(env);
+	if (!mini)
+		return (NULL);
 	while (1)
 	{
 		input = readline(BLUE"MINIPROMPT$ "COLOR_RESET);
-		if (!input || ft_strncmp(input, "exit", 4) == 0)                             // Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
+		if (!input || ft_strncmp(input, "exit", 4) == 0)//fare funzione che skippi gli spazi e poi strncmp// Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
 		{
 			printf(COLOR_ORANGE"\nFarewell my friend\n"COLOR_RESET);
 			free(input);
@@ -68,8 +70,8 @@ void shell_loop(void)
 		process_input(input, &mini);
 		free(input);
 	}
-	ft_free_mini(mini);//TODO
-	rl_clear_history();                         // Pulisce la history prima di uscire
+	ft_free_mini(mini);
+	rl_clear_history();                     // Pulisce la history prima di uscire
 }
 
 int main(int ac, char **av, char **env)
@@ -78,6 +80,6 @@ int main(int ac, char **av, char **env)
 	if (ac > 1)
 		return (printf(COLOR_RED"Usage: %s\t[No Additional Arguments]\n"COLOR_RESET, av[0]), 1);
 	init_sign();
-	shell_loop();
+	shell_loop(env);
 	return (0);
 }

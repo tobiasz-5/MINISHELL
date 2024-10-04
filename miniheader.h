@@ -18,6 +18,7 @@
 # define COLOR_ORANGE "\033[1;38;5;208m"  // Colore arancione
 # define COLOR_RESET "\033[0m"     // Reset del colore
 
+#include "libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
@@ -82,8 +83,11 @@ typedef struct s_mini
 	t_exp	*export;//variabile d'ambiente $
 	t_env	*env;
 }	t_mini;
-
-
+//cambiare strdup con ft_strdup //TODO
+char			**ft_copy_mtx(char **mtx);
+void			ft_free_env(t_env **env);
+void			ft_free_exp(t_exp **export);
+t_mini			ft_mini_init(char **env);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 int				ft_strcmp(const char *s1, const char *s2);
