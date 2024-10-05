@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/05 13:03:50 by negambar          #+#    #+#             */
+/*   Updated: 2024/10/05 13:03:50 by negambar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniheader.h"
 //non libera la pipe
 void	ft_free_mini(t_mini **mini)
@@ -15,20 +27,20 @@ void	ft_free_mini(t_mini **mini)
 	free((*mini));
 }
 
-t_mini	ft_mini_init(char **env)
+t_mini	*ft_mini_init(char **env)
 {
 	t_mini	*mini;
 
 	mini = NULL;
 	mini = (t_mini *)malloc(sizeof(t_mini));
 	if (!mini)
-		return (NULL);
+		return ;
 	mini->env = (t_env *)malloc(sizeof(t_env));
 	if (!mini->env)
-		return (NULL);
+		return ;
 	mini->env->env_old = ft_copy_mtx(env);
 	if (!mini->env->env_old)
-		return (NULL);
+		return ;
 	mini->input = NULL;
 	mini->redirect = NULL;
 	mini->cmd = NULL;

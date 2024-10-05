@@ -33,7 +33,7 @@ static int	skip_echo(char *echo, char *input, int i)
 		i++;
 	}
 	if (input[i] != ' ' && input[i] != '\0')
-		return(-9999);
+		return (-9999);
 	return (i);
 }
 

@@ -18,7 +18,7 @@
 # define COLOR_ORANGE "\033[1;38;5;208m"  // Colore arancione
 # define COLOR_RESET "\033[0m"     // Reset del colore
 
-#include "libft/libft.h"
+# include "libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
@@ -78,7 +78,8 @@ typedef struct s_mini
 	int		fd_out;//init stdout
 	int		pipe[2];
 	char	*redirect;//init NULL
-	char	*input;//init su quale input eseguire il comando e se è un file o meno
+	char	*input;
+	//init su quale input eseguire il comando e se è un file o meno
 	char	**cmd;//init comando da eseguire
 	t_exp	*export;//variabile d'ambiente $
 	t_env	*env;
@@ -87,14 +88,14 @@ typedef struct s_mini
 char			**ft_copy_mtx(char **mtx);
 void			ft_free_env(t_env **env);
 void			ft_free_exp(t_exp **export);
-t_mini			ft_mini_init(char **env);
+t_mini			*ft_mini_init(char **env);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_strlen(const char *s);
-int				handle_builtins(char *input, char *cmd);
-void			ft_pwd();
+int				handle_builtins(t_mini **mini);
+void			ft_pwd(void);
 void			ft_echo(char *input);
 void			init_sign(void);
 int				closed_quote(char *str, int i);
