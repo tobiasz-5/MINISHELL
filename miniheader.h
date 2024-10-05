@@ -69,7 +69,7 @@ typedef struct s_exp
 {
 	char	*name;
 	char	*value;
-	char	*next;
+	struct s_exp next;
 }	t_exp;
 //TOUPGRADE
 typedef struct s_mini
