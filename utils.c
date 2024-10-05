@@ -16,10 +16,10 @@ void	ft_free_exp(t_exp **export)
 	ptr = (*export);
 	while (ptr)
 	{
-		if ((*ptr)->name)
-			free((*ptr)->name);
-		if ((*ptr)->)
-			free((*ptr)->value);
+		if (ptr->name)
+			free(ptr->name);
+		if (ptr->value)
+			free(ptr->value);
 		ptr = ptr->next;
 	}
 	free((*export));
