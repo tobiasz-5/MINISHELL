@@ -18,7 +18,6 @@
 # define COLOR_ORANGE "\033[1;38;5;208m"  // Colore arancione
 # define COLOR_RESET "\033[0m"     // Reset del colore
 
-#include "libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
@@ -59,35 +58,6 @@ typedef struct s_token_state
 	bool	double_quote;
 }	t_token_state;
 
-typedef struct s_env
-{
-	char	**env_old;
-	char	**env_new;
-}	t_env;
-
-typedef struct s_exp
-{
-	char	*name;
-	char	*value;
-	struct	s_exp *next;
-}	t_exp;
-//TOUPGRADE
-typedef struct s_mini
-{
-	int		fd_in;//init stdin
-	int		fd_out;//init stdout
-	int		pipe[2];
-	char	*redirect;//init NULL
-	char	*input;//init su quale input eseguire il comando e se è un file o meno
-	char	**cmd;//init comando da eseguire
-	t_exp	*export;//variabile d'ambiente $
-	t_env	*env;
-}	t_mini;
-//cambiare strdup con ft_strdup //TODO
-char			**ft_copy_mtx(char **mtx);
-void			ft_free_env(t_env **env);
-void			ft_free_exp(t_exp **export);
-t_mini			ft_mini_init(char **env);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 int				ft_strcmp(const char *s1, const char *s2);
@@ -101,7 +71,7 @@ int				closed_quote(char *str, int i);
 int				check_forn(char *input, int i);
 const char		*token_type_to_string(t_token_type type);
 t_token_node	*lexer(char *input);
-void			process_input(char *input, t_mini *mini);
+void			process_input(char *input);
 void			free_tokens(t_token_node *tokens);
 t_token_type	determine_token_type(char *token_str);
 t_token_node	*create_token_node(char *token_str);
