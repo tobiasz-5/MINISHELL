@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../miniheader.h"
+#include "miniheader.h"
 
 
 int handle_builtins(char *input, char **env)

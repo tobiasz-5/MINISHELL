@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../miniheader.h"
+#include "miniheader.h"
 
 int	closed_quote(char *str, int i)
 {
@@ -19,13 +19,13 @@ int	closed_quote(char *str, int i)
 	quote = 0;
 	while (i >= 0)
 	{
-		if (str[i] == '"')
+		if (str[i] == '"' || str[i] == '\'')
 			quote++;
 		i--;
 	}
 	if (quote % 2 != 0)
 		return (0);
-	return (1);
+	return (quote);
 }
 
 int	check_forn(char *input, int i)

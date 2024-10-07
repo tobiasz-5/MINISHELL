@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/07 12:51:30 by negambar          #+#    #+#             */
+/*   Updated: 2024/10/07 12:51:30 by negambar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniheader.h"
 //non libera la pipe
-void	ft_free_mini(t_mini **mini)
+/* void	ft_free_mini(t_mini **mini)
 {
 	if ((*mini)->redirect)
 		free((*mini)->redirect);
@@ -13,9 +25,8 @@ void	ft_free_mini(t_mini **mini)
 	if ((*mini)->env)
 		ft_free_env(&(*mini)->env);
 	free((*mini));
-}
-
-t_mini	ft_mini_init(char **env)
+} */
+t_mini	*ft_mini_init(char **env)
 {
 	t_mini	*mini;
 

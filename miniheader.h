@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/27 12:20:53 by negambar          #+#    #+#             */
-/*   Updated: 2024/09/27 12:20:53 by negambar         ###   ########.fr       */
+/*   Created: 2024/10/07 12:30:58 by negambar          #+#    #+#             */
+/*   Updated: 2024/10/07 12:30:58 by negambar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define COLOR_ORANGE "\033[1;38;5;208m"  // Colore arancione
 # define COLOR_RESET "\033[0m"     // Reset del colore
 
+# include "./libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
@@ -70,17 +71,31 @@ typedef struct s_exp
 	char	*value;
 	struct s_exp *next;
 }	t_exp;
+//TOUPGRADE
 
+typedef struct s_mini
+{
+	int		fd_in;//init stdin
+	int		fd_out;//init stdout
+	int		pipe[2];
+	char	*redirect;//init NULL
+	char	*input;
+	//init su quale input eseguire il comando e se è un file o meno
+	char	**cmd;//init comando da eseguire
+	t_exp	*export;//variabile d'ambiente $
+	t_env	*env;
+}	t_mini;
 
+t_mini			*ft_mini_init(char **env);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
-int				ft_strlen(const char *s);
 int				handle_builtins(char *input, char **env);
-void			ft_pwd();
+void			ft_pwd(void);
 void			get_env(char **env);
 void			ft_echo(char *input);
+void			get_env(char **env);
 void			init_sign(void);
 int				closed_quote(char *str, int i);
 int				check_forn(char *input, int i);
@@ -106,5 +121,5 @@ int				process_next_token(char *input, int i, t_token_state *state, \
 				t_token_node **head, t_token_node **tail);
 int				append_to_temp_token_str(t_token_state *state, \
 				char *temp_token);
-
+char			**ft_copy_mtx(char **mtx);
 #endif
