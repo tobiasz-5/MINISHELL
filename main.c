@@ -50,11 +50,13 @@ void init_sign(void)
 void shell_loop(char **env)
 {
 	char	*input;
-
+	t_mini *old;
+	
+	old = ft_mini_init(env);
 	while (1)
 	{
 		input = readline(BLUE"MINIPROMPT$ "COLOR_RESET);
-		if (!input || handle_builtins(input, env))                             // Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
+		if (!input || handle_builtins(input, old))                             // Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
 		{
 			printf(COLOR_ORANGE"\nFarewell my friend\n"COLOR_RESET);
 			free(input);

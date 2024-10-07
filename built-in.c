@@ -13,7 +13,7 @@
 #include "miniheader.h"
 
 
-int handle_builtins(char *input, char **env)
+int handle_builtins(char *input, t_mini *old)
 {
 	while (*input == ' ')
 		input++;
@@ -33,7 +33,7 @@ int handle_builtins(char *input, char **env)
 	}
 	else if (ft_strncmp(input, "env", 3) == 0)
 	{
-			get_env(env);
+			get_env(old);
 	}
 	return (0);
 }
