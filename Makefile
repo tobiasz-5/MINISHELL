@@ -2,8 +2,8 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g 
 LDFLAGS = -lreadline
-SRCS = 	main.c lexer_token.c signals.c built-in.c echo.c echo_utils.c \
-		utils.c token_type.c tokenizer_utils.c token_analyze_utils.c \
+SRCS = 	builtins/built-in.c builtins/echo.c builtins/echo_utils.c builtins/env.c \
+		main.c lexer_token.c signals.c utils.c token_type.c tokenizer_utils.c token_analyze_utils.c \
 		process_token.c lexer_utils.c free_tokens.c pwd.c
 OBJS = $(SRCS:.c=.o)
 

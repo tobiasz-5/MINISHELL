@@ -58,13 +58,28 @@ typedef struct s_token_state
 	bool	double_quote;
 }	t_token_state;
 
+typedef struct s_env
+{
+	char	**env_old;
+	char	**env_new;
+}	t_env;
+
+typedef struct s_exp
+{
+	char	*name;
+	char	*value;
+	struct s_exp *next;
+}	t_exp;
+
+
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_strlen(const char *s);
-int				handle_builtins(char *input, char *cmd);
+int				handle_builtins(char *input, char **env);
 void			ft_pwd();
+void			get_env(char **env);
 void			ft_echo(char *input);
 void			init_sign(void);
 int				closed_quote(char *str, int i);

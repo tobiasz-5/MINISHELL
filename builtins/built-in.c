@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniheader.h"
+#include "../miniheader.h"
 
 
-int handle_builtins(char *input, char *cmd)
+int handle_builtins(char *input, char **env)
 {
-	(void)cmd;
 	while (*input == ' ')
 		input++;
 	if (ft_strncmp(input, "exit", 4) == 0)
@@ -31,6 +30,10 @@ int handle_builtins(char *input, char *cmd)
 	{
 			ft_pwd();
 			return (0);
+	}
+	else if (ft_strncmp(input, "env", 3) == 0)
+	{
+			get_env(env);
 	}
 	return (0);
 }
