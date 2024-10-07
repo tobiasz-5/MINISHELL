@@ -54,9 +54,9 @@ void	ft_echo(char *input)
 	i = skip_white(input, flag, i);
 	while (input[i])
 	{
-		if (input[i] == '"' && flag_quotes)
+		if ((input[i] == '"' || input[i] == '\'') && flag_quotes)
 			i++;
-		else if (input[i] == '"' && !flag_quotes)
+		else if ((input[i] == '"' || input[i] == '\'') && !flag_quotes)
 			write(1, &input[i++], 1);
 		write(1, &input[i++], 1);
 	}
