@@ -27,14 +27,15 @@ void process_input(char *input, t_mini **mini)// Funzione che processa l'intero 
     current = tokens;
 	while (current != NULL)
 	{
-		ft_update_mini(*mini, current);//TODO aggiorna cmd, pipe, redirect per eseguirli
-		ft_pipe_or_redirect(mini);//TODO controlla se ci sono pipe o meno e in caso li inizializa
-		if (ft_check_cmd((*mini)->cmd) == 1)//TODO 1 builtin | 2 execv 
-			handle_builtins(mini);//upgrade gestione builtin
-		else
-			ft_execv(mini);//TODO
-		ft_update_pipe(mini);//TODO se ce la pipe la chiude
-		current = current->next;
+		(ft_update_mini(*mini, &current) == -1);//TODO aggiorna cmd, pipe, redirect per eseguirli || caso limite -1 : se la prima parola non è un cmd o una pipe
+			break ;
+		// ft_pipe_or_redirect(mini);//TODO controlla se ci sono pipe o meno e in caso li inizializa
+		// if (ft_check_cmd((*mini)->cmd) == 1)//TODO 1 builtin | 2 execv 
+		// 	handle_builtins(mini);//upgrade gestione builtin
+		// else
+		// 	ft_execv(mini);//TODO
+		// ft_update_pipe(mini);//TODO se ce la pipe la chiude
+		ft_test((*mini));//DA preparare
 	}
     free_tokens(tokens);
 }
@@ -68,6 +69,7 @@ void shell_loop(char **env)
 			continue;
 		}
 		process_input(input, &mini);
+		ft_free_selected_mini(&mini);//TODO free e setta alcune variabili per il nuovo promt eccetto es. export, env
 		free(input);
 	}
 	ft_free_mini(mini);

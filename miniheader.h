@@ -71,13 +71,19 @@ typedef struct s_exp
 	char	*value;
 	char	*next;
 }	t_exp;
+
+typedef struct s_exp
+{
+	char	*simbol;
+	char	*next;
+}	t_red;
 //TOUPGRADE
 typedef struct s_mini
 {
 	int		fd_in;//init stdin
 	int		fd_out;//init stdout
 	int		pipe[2];
-	char	*redirect;//init NULL
+	t_red	**redirect;//init NULL
 	char	*input;//init su quale input eseguire il comando e se è un file o meno
 	char	**cmd;//init comando da eseguire
 	t_exp	*export;//variabile d'ambiente $
