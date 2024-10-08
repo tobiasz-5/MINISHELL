@@ -12,28 +12,25 @@
 
 #include "miniheader.h"
 
-
-int handle_builtins(char *input, char **env)
+int	handle_builtins(char *input, char **env)
 {
-	while (*input == ' ')
-		input++;
-	if (ft_strncmp(input, "exit", 4) == 0)
+	if (check_word(input, "exit", 3) == 0)
 	{
 		return (1);
 	}
-	else if (ft_strncmp(input, "echo", 3) == 0)
+	else if (check_word(input, "echo", 3) == 0)
 	{
-			ft_echo(input);
-			return (0);
+		ft_echo(input);
+		return (0);
 	}
-	else if (ft_strncmp(input, "pwd", 3) == 0)
+	else if (check_word(input, "pwd", 2) == 0)
 	{
-			ft_pwd();
-			return (0);
+		ft_pwd();
+		return (0);
 	}
-	else if (ft_strncmp(input, "env", 3) == 0)
+	else if (check_word(input, "env", 2) == 0)
 	{
-			get_env(env);
+		get_env(env);
 	}
 	return (0);
 }

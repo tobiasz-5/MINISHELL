@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   built_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 11:46:59 by negambar          #+#    #+#             */
-/*   Updated: 2024/10/08 12:17:13 by negambar         ###   ########.fr       */
+/*   Created: 2024/10/07 17:46:09 by negambar          #+#    #+#             */
+/*   Updated: 2024/10/08 14:33:23 by negambar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniheader.h"
 
-void	get_env(char **env)
+int	check_word(char *input, char *word, size_t n)
 {
-	int		i;
-	t_mini	*old;
+	size_t	i;
+	size_t	j;
 
-	old = malloc(sizeof(t_mini));
-	old = ft_mini_init(env);
 	i = 0;
-	while (old->env->env_old[i])
+	j = 0;
+	while (i < n && input[j] && word[i])
 	{
-		printf("%s\n", old->env->env_old[i]);
+		if (input[j] == '\'' || input[j] == '"')
+		{
+			j++;
+		}
+		if ((unsigned char)input[j] != (unsigned char)word[i])
+			return ((unsigned char)input[j] - (unsigned char)word[i]);
 		i++;
+		j++;
 	}
+	if (i != n)
+		return ((unsigned char)input[j] - (unsigned char)word[i]);
+	return (0);
 }
