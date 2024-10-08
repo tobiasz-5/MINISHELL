@@ -26,92 +26,50 @@ static int	skip_white(char *input, int flag, int i)
 
 static int	skip_echo(char *echo, char *input, int i)
 {
+	int	j;
+	int	closed;
+
+	j = 0;
+	closed = closed_quote(input, i);
 	while (echo[i])
 	{
-		if (input[i] != echo[i])
+		while ((input[j] == '\'' || input[j] == '"') && closed)
+			j++;
+		if (input[j] != echo[i])
 			return (-99999);
 		i++;
+		j++;
 	}
-	if (input[i] != ' ' && input[i] != '\0')
-		return(-9999);
-	return (i);
-}
-
-int first_double(char *input)
-{
-	int i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == '"')
-			return (1);
-		else if (input[i] == '\'')
-			return (0);
-		i++;
-	}
-	return (0);
-}
-
-int first_single(char *input)
-{
-	int i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == '\'')
-			return (1);
-		else if (input[i] == '"')
-			return (0);
-		i++;
-	}
-	return(0);
+	while (input[j] == '\'' || input[j] == '"')
+		j++;
+	if (input[j] != ' ' && input[j] != '\0')
+		return (-9999);
+	return (j);
 }
 
 void	ft_echo(char *input)
 {
 	int		flag;
-	int		flag_quotes;
 	int		i;
-	char	*echo;
-	int		double_quotes;
-	int		single_quotes;
 
-	echo = "echo";
-	flag_quotes = closed_quote(input, ft_strlen(input));
-	double_quotes = first_double(input);
-	single_quotes = first_single(input);
-	i = 0;
+	i = skip_echo("echo", input, 0);
 	flag = check_forn(input, i);
-	i = skip_echo(echo, input, i);
 	if (i < 0)
 		return ;
 	i = skip_white(input, flag, i);
 	while (input[i])
 	{
-		
-		if ((input[i] == '"' || input[i] == '\'') && flag_quotes)
+		if (!closed_quote(input, ft_strlen(input)))
+			return ;
+		if ((input[i] == '"' || input[i] == '\''))
 		{
-			if (input[i+1] == '"' || input[i+1] == '\'')
-			{
-				i++;
-				flag_quotes--;
-				continue ;
-			}
-			if (input[i] == '"' && double_quotes)
+			if ((input[i + 1] == '"' || input[i + 1] == '\''))
 			{
 				i++;
 				continue ;
 			}
-			else if (input[i] == '\'' && single_quotes)
-			{
-				i++;
-				continue;
-			}
+			i = quotes_handling(input, i);
 		}
-		else if ((input[i] == '"' || input[i] == '\'') && !flag_quotes)
-			write(1, &input[i++], 1);
 		write(1, &input[i++], 1);
 	}
 	if (!flag)

@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -g -I$(LIBFT_DIR)
 LDFLAGS = -L$(LIBFT_DIR) -lreadline -lft
 SRCS = 	built-in.c echo.c echo_utils.c env.c mini.c\
 		main.c lexer_token.c signals.c utils.c utils_2.c token_type.c tokenizer_utils.c token_analyze_utils.c \
-		process_token.c lexer_utils.c free_tokens.c pwd.c cd.c
+		process_token.c lexer_utils.c free_tokens.c pwd.c built_in_utils.c cd.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME) $(LIBFT) mini_art

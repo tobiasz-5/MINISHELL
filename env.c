@@ -6,7 +6,7 @@
 /*   By: girindi <girindi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:46:59 by negambar          #+#    #+#             */
-/*   Updated: 2024/10/08 18:13:38 by girindi          ###   ########.fr       */
+/*   Updated: 2024/10/08 18:24:54 by girindi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void get_env(t_mini *old)
 {
 	int i;
-	
+
 	i = 0;
 	while (old->env->env_new[i])
 	{

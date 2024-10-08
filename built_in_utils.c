@@ -1,27 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tokens.c                                      :+:      :+:    :+:   */
+/*   built_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 14:31:23 by negambar          #+#    #+#             */
-/*   Updated: 2024/10/08 14:32:28 by negambar         ###   ########.fr       */
+/*   Created: 2024/10/07 17:46:09 by negambar          #+#    #+#             */
+/*   Updated: 2024/10/08 14:33:23 by negambar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniheader.h"
 
-void	free_tokens(t_token_node *tokens)
+int	check_word(char *input, char *word, size_t n)
 {
-	t_token_node	*temp;
+	size_t	i;
+	size_t	j;
 
-	while (tokens)
+	i = 0;
+	j = 0;
+	while (i < n && input[j] && word[i])
 	{
-		temp = tokens; // Salva il nodo corrente per poterlo liberare
-		tokens = tokens->next; // Passa al nodo successivo
-		if (temp->token) // Se non è NULL libera la memoria
-			free(temp->token);
-		free (temp); // Libera il nodo corrente
+		if (input[j] == '\'' || input[j] == '"')
+		{
+			j++;
+		}
+		if ((unsigned char)input[j] != (unsigned char)word[i])
+			return ((unsigned char)input[j] - (unsigned char)word[i]);
+		i++;
+		j++;
 	}
+	if (i != n)
+		return ((unsigned char)input[j] - (unsigned char)word[i]);
+	return (0);
 }

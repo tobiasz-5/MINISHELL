@@ -67,9 +67,9 @@ typedef struct s_env
 
 typedef struct s_exp
 {
-	char	*name;
-	char	*value;
-	struct s_exp *next;
+	char			*name;
+	char			*value;
+	struct s_exp	*next;
 }	t_exp;
 //TOUPGRADE
 
@@ -91,11 +91,13 @@ void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
-int				handle_builtins(char *input, t_mini *old);
+int				handle_builtins(char *input, char **env);
+int				check_word(char *input, char *word, size_t n);
 void			ft_pwd(void);
 void			cd(char *input);
-void			get_env(t_mini *old);
 void			ft_echo(char *input);
+int				quotes_handling(char *input, int i);
+void			get_env(char **env);
 void			init_sign(void);
 int				closed_quote(char *str, int i);
 int				check_forn(char *input, int i);
