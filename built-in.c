@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   built-in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: girindi <girindi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/15 17:40:15 by negambar          #+#    #+#             */
-/*   Updated: 2024/09/15 18:05:55 by negambar         ###   ########.fr       */
+/*   Created: 2024/09/15 17:40:15 by girindi           #+#    #+#             */
+/*   Updated: 2024/10/08 18:38:39 by girindi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniheader.h"
 
 
-int handle_builtins(char *input, char **env)
+int handle_builtins(char *input, t_mini *old)
 {
 	if (check_word(input, "exit", 3) == 0)
 	{
@@ -31,10 +31,10 @@ int handle_builtins(char *input, char **env)
 	}
 	else if (check_word(input, "env", 2) == 0)
 	{
-			get_env(env);
+			get_env(old);
 			return (0);
 	}
-	else if (ft_strncmp(input, "cd", 1) == 0)
+	else if (check_word(input, "cd", 1) == 0)
 	{
 			cd(input);
 			return (0);

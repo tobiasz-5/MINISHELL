@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: girindi <girindi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 14:48:54 by negambar          #+#    #+#             */
-/*   Updated: 2024/10/08 14:52:16 by negambar         ###   ########.fr       */
+/*   Created: 2024/10/08 14:48:54 by girindi           #+#    #+#             */
+/*   Updated: 2024/10/08 18:22:05 by girindi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

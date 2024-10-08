@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: girindi <girindi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/15 15:49:48 by mailinci          #+#    #+#             */
-/*   Updated: 2024/09/15 18:05:31 by negambar         ###   ########.fr       */
+/*   Created: 2024/09/15 15:49:48 by girindi           #+#    #+#             */
+/*   Updated: 2024/10/08 18:39:04 by girindi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ void	init_sign(void)
 void	shell_loop(char **env)
 {
 	char	*input;
-	t_mini *old;
+	t_mini	*old;
 	
 	old = ft_mini_init(env);
 	while (1)
 	{
 		input = readline(BLUE"MINIPROMPT$ "COLOR_RESET);
-		if (!input || handle_builtins(input, env))                             // Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
+		if (!input || handle_builtins(input, old))                             // Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
 		{
 			printf(COLOR_ORANGE"\nFarewell my friend\n"COLOR_RESET);
 			free(input);

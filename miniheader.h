@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniheader.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: girindi <girindi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 12:30:58 by negambar          #+#    #+#             */
-/*   Updated: 2024/10/07 12:30:58 by negambar         ###   ########.fr       */
+/*   Created: 2024/10/07 12:30:58 by girindi           #+#    #+#             */
+/*   Updated: 2024/10/08 19:16:57 by girindi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,14 @@ void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
-int				handle_builtins(char *input, char **env);
+int				handle_builtins(char *input, t_mini *old);
 int				check_word(char *input, char *word, size_t n);
 void			ft_pwd(void);
 void			cd(char *input);
+void			cd_back_dir(void);
 void			ft_echo(char *input);
 int				quotes_handling(char *input, int i);
-void			get_env(char **env);
+void			get_env(t_mini *old);
 void			init_sign(void);
 int				closed_quote(char *str, int i);
 int				check_forn(char *input, int i);
@@ -124,4 +125,5 @@ int				process_next_token(char *input, int i, t_token_state *state, \
 int				append_to_temp_token_str(t_token_state *state, \
 				char *temp_token);
 char			**ft_copy_mtx(char **mtx);
+
 #endif

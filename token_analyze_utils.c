@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_analyze_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: girindi <girindi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 15:08:27 by negambar          #+#    #+#             */
-/*   Updated: 2024/10/08 15:11:13 by negambar         ###   ########.fr       */
+/*   Created: 2024/10/08 15:08:27 by girindi           #+#    #+#             */
+/*   Updated: 2024/10/08 18:22:05 by girindi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
