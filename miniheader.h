@@ -93,6 +93,7 @@ int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				handle_builtins(char *input, t_mini *old);
 void			ft_pwd(void);
+void			cd(char *input);
 void			get_env(t_mini *old);
 void			ft_echo(char *input);
 void			init_sign(void);

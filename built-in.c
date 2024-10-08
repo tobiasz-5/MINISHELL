@@ -34,6 +34,12 @@ int handle_builtins(char *input, t_mini *old)
 	else if (ft_strncmp(input, "env", 3) == 0)
 	{
 			get_env(old);
+			return (0);
+	}
+	else if (ft_strncmp(input, "cd", 1) == 0)
+	{
+			cd(input);
+			return (0);
 	}
 	return (0);
 }
