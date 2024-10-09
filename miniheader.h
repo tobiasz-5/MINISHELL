@@ -6,7 +6,7 @@
 /*   By: girindi <girindi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:30:58 by girindi           #+#    #+#             */
-/*   Updated: 2024/10/08 19:16:57 by girindi          ###   ########.fr       */
+/*   Updated: 2024/10/09 16:40:46 by girindi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ int				handle_builtins(char *input, t_mini *old);
 int				check_word(char *input, char *word, size_t n);
 void			ft_pwd(void);
 void			cd(char *input);
-void			cd_back_dir(void);
+void			cd_back_dir(char *input);
+void			cd_rel_path(char *input, int j);
 void			ft_echo(char *input);
 int				quotes_handling(char *input, int i);
 void			get_env(t_mini *old);
