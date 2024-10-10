@@ -6,16 +6,18 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 SRCS = 	main.c lexer_token.c signals.c built-in.c echo.c echo_utils.c \
 		utils.c token_type.c tokenizer_utils.c token_analyze_utils.c \
-		process_token.c lexer_utils.c free_tokens.c pwd.c
+		process_token.c lexer_utils.c free_tokens.c pwd.c mini.c \
+		handle_token.c utils_2.c handle_token2.c 
 OBJS = $(SRCS:.c=.o)
 
 all: $(LIBFT) $(NAME) mini_art
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDFLAGS)
-
 $(LIBFT):
 	make bonus -C $(LIBFT_DIR)
+
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDFLAGS) $(LIBFT)
+
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 

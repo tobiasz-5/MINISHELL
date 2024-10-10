@@ -14,25 +14,27 @@
 
 void	process_input(char *input, t_mini **mini)
 {
-	t_token_node	*current;
-	t_token_node	*tokens;// Variabile che conterrà la lista di token			
-	add_history(input);
-	tokens = lexer(input);
+    t_token_node *tokens;	       // Variabile che conterrà la lista di token			
+    t_token_node *current;
+
+    add_history(input);
+    tokens = lexer(input);
 	if (!tokens)
 	{
-		printf(stderr, COLOR_RED "Error creating tokens.\n"COLOR_RESET);
-		return ;
+	    printf(COLOR_RED "Error creating tokens.\n"COLOR_RESET);
+    	return;
 	}
 	current = tokens;
 	while (current != NULL)
 	{
-		ft_update_mini(*mini, current);//TODO aggiorna cmd, pipe, redirect
-		ft_pipe_or_redirect(mini);//TODO controlla se ci sono pipe, e inizializa
-		if (ft_check_cmd((*mini)->cmd) == 1) //TODO 1 builtin | 2 execv 
+		ft_update_mini(&(*mini), &current);//TODO aggiorna cmd, pipe, redirect per eseguirli
+		if ((*mini)->pipe_check == true)
+			ft_pipe(mini, tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
+		else if (ft_check_cmd((*mini)->cmd) == 1)//TODO 1 builtin | 2 execv
 			handle_builtins(mini);//upgrade gestione builtin
 		else
 			ft_execv(mini);//TODO
-		ft_update_pipe(mini);//TODO se ce la pipe la chiude
+		ft_reset((*mini));//TODO
 		current = current->next;
 	}
 	free_tokens (tokens);
@@ -57,9 +59,7 @@ void	shell_loop(char **env)
 	while (1)
 	{
 		input = readline(BLUE"MINIPROMPT$ "COLOR_RESET);
-		if (!input || ft_strncmp(input, "exit", 4) == 0)
-		//skippi gli spazi e poi strncmp
-		// Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
+		if (!input || ft_strncmp(input, "exit", 4) == 0)//TOUPGRADEfare funzione che skippi gli spazi e poi strncmp// Se l'input è NULL, significa che l'utente ha premuto Ctrl+D
 		{
 			printf(COLOR_ORANGE"\nFarewell my friend\n"COLOR_RESET);
 			free(input);
@@ -71,18 +71,17 @@ void	shell_loop(char **env)
 			continue ;
 		}
 		process_input(input, &mini);
+		ft_free_selected_mini(&mini);//TODO free e setta alcune variabili per il nuovo promt eccetto es. export, env
 		free(input);
 	}
-	ft_free_mini(mini);
-	rl_clear_history(); // Pulisce la history prima di uscire
+	ft_free_mini(&mini);
+	rl_clear_history();                     // Pulisce la history prima di uscire
 }
 
 void	main(int ac, char **av, char **env)
 {
-	(void)av;
-	if (ac > 1)
-		return (printf(COLOR_RED"Usage:%s\t[No Additional Arguments]\n"\
-				COLOR_RESET, av[0]));
+	if (ac > 1 && av)
+		return (printf(COLOR_RED"Usage: %s\t[No Additional Arguments]\n"COLOR_RESET, av[0]), 1);
 	init_sign();
 	shell_loop(env);
 }
