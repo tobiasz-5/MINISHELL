@@ -109,6 +109,7 @@ void			ft_free_exp(t_exp **export);
 t_mini			*ft_mini_init(char **env);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
+void			ft_pipe(t_mini **mini, t_token_node *current);
 int				handle_builtins(t_mini **mini);
 void			ft_pwd();
 void			ft_echo(char *input);

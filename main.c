@@ -28,8 +28,8 @@ void	process_input(char *input, t_mini **mini)
 	while (current != NULL)
 	{
 		ft_update_mini(&(*mini), &current);//TODO aggiorna cmd, pipe, redirect per eseguirli
-		// if ((*mini)->pipe_check == true)
-		// 	ft_pipe(mini, tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
+		if ((*mini)->pipe_check == true)
+			ft_pipe(mini, tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
 		// else if (ft_check_cmd((*mini)->cmd) == 1)//TODO 1 builtin | 2 execv
 		// 	handle_builtins(mini);//upgrade gestione builtin
 		// else
