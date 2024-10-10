@@ -12,65 +12,6 @@
 
 #include "miniheader.h"
 
-static void ft_test(t_mini *mini)
-{
-    // Stampa il codice di uscita
-    printf("Exit Status: %d\n", mini->exit_status);
-
-    // Stampa se c'è una pipe
-    printf("Pipe Check: %s\n", mini->pipe_check ? "true" : "false");
-
-    // Stampa se ci sono redirezioni
-    printf("Redirect: %s\n", mini->redirect ? "true" : "false");
-
-    // Stampa l'input
-    if (mini->input != NULL)
-        printf("Input: %s\n", mini->input);
-    else
-        printf("Input is NULL\n");
-
-    // Stampa i comandi
-    if (mini->cmd != NULL)
-    {
-        int i = 0;
-        while (mini->cmd[i] != NULL)
-        {
-            printf("Command[%d]: %s\n", i, mini->cmd[i]);
-            i++;
-        }
-    }
-    else
-        printf("Command is NULL\n");
-
-    // Stampa la variabile export
-    if (mini->export != NULL)
-    {
-        t_exp *temp = mini->export;
-        while (temp != NULL)
-        {
-            printf("Export: Name = %s, Value = %s\n", temp->name, temp->value);
-            temp = (t_exp *)temp->next; // Cast di next
-        }
-    }
-    else
-        printf("Export is NULL\n");
-
-    // Stampa l'ambiente
-    if (mini->env != NULL)
-    {
-        printf("Old Env:\n");
-        for (int i = 0; mini->env->env_old[i] != NULL; i++)
-            printf("env_old[%d]: %s\n", i, mini->env->env_old[i]);
-
-        printf("New Env:\n");
-        for (int i = 0; mini->env->env_new[i] != NULL; i++)
-            printf("env_new[%d]: %s\n", i, mini->env->env_new[i]);
-    }
-    else
-        printf("Env is NULL\n");
-}
-
-
 void process_input(char *input, t_mini **mini)// Funzione che processa l'intero input dell'utente
 {
     t_token_node *tokens;	       // Variabile che conterrà la lista di token			
@@ -87,16 +28,14 @@ void process_input(char *input, t_mini **mini)// Funzione che processa l'intero 
 	while (current != NULL)
 	{
 		ft_update_mini(&(*mini), &current);//TODO aggiorna cmd, pipe, redirect per eseguirli
-		// if ((*mini)->pipe_check == true)
-			// ft_pipe(mini, tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
-		// else if (ft_check_cmd((*mini)->cmd) == 1)//TODO 1 builtin | 2 execv
-		// 	handle_builtins(mini);//upgrade gestione builtin
-		// else
-		//	ft_execv(mini);//TODO
-		// if ((*mini)->redirect != NULL)
-		// 	ft_reset()
+		if ((*mini)->pipe_check == true)
+			ft_pipe(mini, tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
+		else if (ft_check_cmd((*mini)->cmd) == 1)//TODO 1 builtin | 2 execv
+			handle_builtins(mini);//upgrade gestione builtin
+		else
+			ft_execv(mini);//TODO
+		ft_reset((*mini));//TODO
 		current = current->next;
-		ft_test((*mini));//DA preparare
 	}
     free_tokens(tokens);
 }
