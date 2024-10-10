@@ -35,6 +35,7 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }		t_list;
+int 		ft_strcmp(char *s1, char *s2);
 int			ft_abs(int num);
 long		ft_strtol(char *nptr);
 void		ft_free_mtx(char **matrix);

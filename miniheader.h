@@ -67,39 +67,49 @@ typedef struct s_env
 
 typedef struct s_exp
 {
-	char	*name;
-	char	*value;
-	char	*next;
+	char			*name;
+	char			*value;//nome da selezionare
+	struct s_exp	*next;
 }	t_exp;
 
-typedef struct s_exp
+typedef struct s_red
 {
-	char	*simbol;
-	char	*next;
+	char			*simbol;
+	struct s_red	*next;
 }	t_red;
 //TOUPGRADE
 typedef struct s_mini
 {
-	int		fd_in;//init stdin
-	int		fd_out;//init stdout
-	int		pipe[2];
-	t_red	**redirect;//init NULL
-	char	*input;//init su quale input eseguire il comando e se è un file o meno
+	int		exit_status;// per gestire $? ultimo exit
+	bool 	pipe_check;
+	bool	redirect;//init NULL
+	char	*input;//init su quale input eseguire il comando
 	char	**cmd;//init comando da eseguire
 	t_exp	*export;//variabile d'ambiente $
 	t_env	*env;
 }	t_mini;
 //cambiare strdup con ft_strdup //TODO
+char			**ft_copy_cmd(t_token_node *current);
+int				ft_check_token(t_token_node *t_ptr, t_token_node **start);
+void			ft_handle_first_token(t_token_node **current, t_mini **mini);
+void			ft_free_selected_mini(t_mini **mini);
+void			ft_handle_heredoc(t_mini **mini, t_token_node *current);
+void			ft_handle_append(t_mini **mini, t_token_node **current);
+void			ft_handle_dollar(t_mini **mini, t_token_node *current);
+void			ft_handle_red_in(t_mini **mini, t_token_node **current);
+void			ft_handle_red_out(t_mini **mini, t_token_node **current);
+void			ft_handle_world(t_mini **mini, t_token_node *current);
+void			ft_free_mini(t_mini **mini);
+int				ft_check_token(t_token_node *t_ptr, t_token_node **start);
+void			ft_handle_first_token(t_token_node **current, t_mini **mini);
+void			ft_update_mini(t_mini **mini,t_token_node **current);
 char			**ft_copy_mtx(char **mtx);
 void			ft_free_env(t_env **env);
 void			ft_free_exp(t_exp **export);
-t_mini			ft_mini_init(char **env);
+t_mini			*ft_mini_init(char **env);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
-int				ft_strcmp(const char *s1, const char *s2);
-int				ft_strncmp(const char *s1, const char *s2, size_t n);
-int				ft_strlen(const char *s);
-int				handle_builtins(char *input, char *cmd);
+//int				handle_builtins(char *input, char *cmd);
 void			ft_pwd();
 void			ft_echo(char *input);
 void			init_sign(void);
@@ -107,15 +117,13 @@ int				closed_quote(char *str, int i);
 int				check_forn(char *input, int i);
 const char		*token_type_to_string(t_token_type type);
 t_token_node	*lexer(char *input);
-void			process_input(char *input, t_mini *mini);
+void			process_input(char *input, t_mini **mini);
 void			free_tokens(t_token_node *tokens);
 t_token_type	determine_token_type(char *token_str);
 t_token_node	*create_token_node(char *token_str);
 t_token_node	*extract_token_str(char *input, int start, int end);
 void			add_token_node(t_token_node **head, t_token_node **tail, \
 				t_token_node *new_node);
-void			*ft_memcpy(void *dest, const void *src, size_t n);
-char			*ft_strjoin(const char *s1, const char *s2);
 int				skip_spaces(char *input, int i);
 int				find_closing_quote(char *input, int i, char quote);
 void			handle_unclosed_quote_error(t_token_state *state);
