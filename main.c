@@ -28,13 +28,13 @@ void	process_input(char *input, t_mini **mini)
 	while (current != NULL)
 	{
 		ft_update_mini(&(*mini), &current);//TODO aggiorna cmd, pipe, redirect per eseguirli
-		if ((*mini)->pipe_check == true)
-			ft_pipe(mini, tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
-		else if (ft_check_cmd((*mini)->cmd) == 1)//TODO 1 builtin | 2 execv
-			handle_builtins(mini);//upgrade gestione builtin
-		else
-			ft_execv(mini);//TODO
-		ft_reset((*mini));//TODO
+		// if ((*mini)->pipe_check == true)
+		// 	ft_pipe(mini, tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
+		// else if (ft_check_cmd((*mini)->cmd) == 1)//TODO 1 builtin | 2 execv
+		// 	handle_builtins(mini);//upgrade gestione builtin
+		// else
+		// 	ft_execv(mini);//TODO
+		// ft_reset((*mini));//TODO
 		current = current->next;
 	}
 	free_tokens (tokens);
@@ -50,9 +50,9 @@ void	shell_loop(char **env)
 {
 	t_mini	*mini;
 	char	*input;
-	t_env	*environment;
+	// t_env	*environment;
 
-	environment = init_env(env);
+	// environment = init_env(env);
 	mini = ft_mini_init(env);
 	if (!mini)
 		return ;
@@ -78,10 +78,10 @@ void	shell_loop(char **env)
 	rl_clear_history();                     // Pulisce la history prima di uscire
 }
 
-void	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
 	if (ac > 1 && av)
-		return (printf(COLOR_RED"Usage: %s\t[No Additional Arguments]\n"COLOR_RESET, av[0]), 1);
+		return (printf(COLOR_RED"Usage: %s\t[No Additional Arguments]\n"COLOR_RESET, av[0]));
 	init_sign();
 	shell_loop(env);
 }

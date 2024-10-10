@@ -105,13 +105,13 @@ t_mini	*ft_mini_init(char **env)
 	mini = NULL;
 	mini = (t_mini *)malloc(sizeof(t_mini));
 	if (!mini)
-		return ;
+		return (NULL);
 	mini->env = (t_env *)malloc(sizeof(t_env));
 	if (!mini->env)
-		return ;
+		return (NULL);
 	mini->env->env_old = ft_copy_mtx(env);
 	if (!mini->env->env_old)
-		return ;
+		return (NULL);
 	mini->input = NULL;
 	mini->redirect = false;
 	mini->cmd = NULL;
