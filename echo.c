@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: girindi <girindi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:11:43 by girindi           #+#    #+#             */
-/*   Updated: 2024/10/08 18:22:05 by girindi          ###   ########.fr       */
+/*   Updated: 2024/10/10 12:21:18 by negambar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	skip_white(char *input, int flag, int i)
 	return (i);
 }
 
-static int	skip_echo(char *echo, char *input, int i)
+int	skip_echo(char *echo, char *input, int i)
 {
 	int	j;
 	int	closed;
