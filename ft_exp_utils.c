@@ -6,7 +6,7 @@
 /*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 15:40:14 by negambar          #+#    #+#             */
-/*   Updated: 2024/10/10 16:47:26 by negambar         ###   ########.fr       */
+/*   Updated: 2024/10/10 16:57:01 by negambar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	freenew(t_mini *mtx)
 {
-	int i;
+	int	i;
 
 	if (!mtx->env->env_new || !mtx->env || !mtx)
 		return ;
@@ -28,7 +28,7 @@ void	freenew(t_mini *mtx)
 	mtx->env->env_new = NULL;
 }
 
-char **fresh_mtx(char **mtx)
+char	**fresh_mtx(char **mtx)
 {
 	char	**new;
 	int		c;
@@ -52,32 +52,32 @@ char **fresh_mtx(char **mtx)
 		i++;
 	}
 	new[i] = NULL;
-	new[i+1] = NULL;
+	new[i + 1] = NULL;
 	return (new);
 }
 
-int dollar_check(const char *s1, const char *s2, char c)
+int	dollar_check(const char *s1, const char *s2, char c)
 {
-    size_t i;
+	size_t	i;
 
-    i = 0;
-    if (c == 0)
-        return (0);
-    while (s1[i] && s2[i] && s1[i] != c && s2[i] != c && s1[i] == s2[i])
-        i++;
-    return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	i = 0;
+	if (c == 0)
+		return (0);
+	while (s1[i] && s2[i] && s1[i] != c && s2[i] != c && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
 int	not_existing(t_mini *mtx, char *input, int i)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (mtx->env->env_new[j] != NULL)
-    {
+	{
 		if (dollar_check(mtx->env->env_new[j], &input[i], '=') == 0)
 			return (0);
-	    j++;
+		j++;
 	}
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: girindi <girindi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 18:40:38 by girindi           #+#    #+#             */
-/*   Updated: 2024/10/09 16:41:26 by girindi          ###   ########.fr       */
+/*   Updated: 2024/10/10 16:59:00 by negambar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 void	cd(char *input)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (input[i] != 'd')
 		i++;
-	i += skip_spaces(&input[i], i); 
+	i += skip_spaces(&input[i], i);
 	if (input[i] == '/')
 	{
 		if (chdir(&input[i]))
 			ft_printf("cd: no such file or directory: %s", &input[i]);
 	}
-	else if (input[i] == '.' && input[i + 1] == '.' && 
+	else if (input[i] == '.' && input[i + 1] == '.' && \
 			(input[i + 2] == ' ' || input[i + 2] == '\0'))
 		cd_back_dir(&input[i]);
 	else
@@ -59,13 +59,13 @@ void	cd_back_dir(char *input)
 	return ;
 }
 
-void cd_rel_path(char *input, int j)
+void	cd_rel_path(char *input, int j)
 {
 	char	*current_dir;
 	char	new_dir[100];
 	int		error;
 	int		i;
-	
+
 	i = 0;
 	error = j;
 	current_dir = getcwd(NULL, 0);

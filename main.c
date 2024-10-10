@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: girindi <girindi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 15:49:48 by girindi           #+#    #+#             */
-/*   Updated: 2024/10/08 18:39:04 by girindi          ###   ########.fr       */
+/*   Updated: 2024/10/10 17:03:01 by negambar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniheader.h"
 // Funzione che processa l'intero input dell'utente
+// Toglieremo le print e manderemo
+// token al parser per l'esecuzione dei comandi
 void	process_input(char *input)
 {
 	t_token_node	*current;
@@ -26,8 +28,6 @@ void	process_input(char *input)
 	}
 	current = tokens;
 	while (current)
-	// Toglieremo le print e manderemo
-	// token al parser per l'esecuzione dei comandi
 	{
 		printf("Token: %s \t Type: %s\n",
 			current->token,
