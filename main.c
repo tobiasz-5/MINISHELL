@@ -12,7 +12,7 @@
 
 #include "miniheader.h"
 
-void process_input(char *input, t_mini **mini)// Funzione che processa l'intero input dell'utente
+void	process_input(char *input, t_mini **mini)
 {
     t_token_node *tokens;	       // Variabile che conterrà la lista di token			
     t_token_node *current;
@@ -24,7 +24,7 @@ void process_input(char *input, t_mini **mini)// Funzione che processa l'intero 
 	    printf(COLOR_RED "Error creating tokens.\n"COLOR_RESET);
     	return;
 	}
-    current = tokens;
+	current = tokens;
 	while (current != NULL)
 	{
 		ft_update_mini(&(*mini), &current);//TODO aggiorna cmd, pipe, redirect per eseguirli
@@ -37,20 +37,22 @@ void process_input(char *input, t_mini **mini)// Funzione che processa l'intero 
 		ft_reset((*mini));//TODO
 		current = current->next;
 	}
-    free_tokens(tokens);
+	free_tokens (tokens);
 }
 
-void init_sign(void)
+void	init_sign(void)
 {
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, handle_sigquit);
 }
 
-void shell_loop(char **env)
+void	shell_loop(char **env)
 {
 	t_mini	*mini;
 	char	*input;
+	t_env	*environment;
 
+	environment = init_env(env);
 	mini = ft_mini_init(env);
 	if (!mini)
 		return ;
@@ -61,12 +63,12 @@ void shell_loop(char **env)
 		{
 			printf(COLOR_ORANGE"\nFarewell my friend\n"COLOR_RESET);
 			free(input);
-			break;
+			break ;
 		}
-		if (*input == '\0')                     // Per non aggiungere linee vuote alla history (Enter e' infatti un input vuoto)
+		if (*input == '\0')
 		{
 			free(input);
-			continue;
+			continue ;
 		}
 		process_input(input, &mini);
 		ft_free_selected_mini(&mini);//TODO free e setta alcune variabili per il nuovo promt eccetto es. export, env
@@ -76,11 +78,10 @@ void shell_loop(char **env)
 	rl_clear_history();                     // Pulisce la history prima di uscire
 }
 
-int main(int ac, char **av, char **env)
+void	main(int ac, char **av, char **env)
 {
 	if (ac > 1 && av)
 		return (printf(COLOR_RED"Usage: %s\t[No Additional Arguments]\n"COLOR_RESET, av[0]), 1);
 	init_sign();
 	shell_loop(env);
-	return (0);
 }

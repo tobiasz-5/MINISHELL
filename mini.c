@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/05 13:03:50 by negambar          #+#    #+#             */
+/*   Updated: 2024/10/05 13:03:50 by negambar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniheader.h"
 
 int	ft_check_token(t_token_node *t_ptr, t_token_node **start)
@@ -93,13 +105,13 @@ t_mini	*ft_mini_init(char **env)
 	mini = NULL;
 	mini = (t_mini *)malloc(sizeof(t_mini));
 	if (!mini)
-		return (NULL);
+		return ;
 	mini->env = (t_env *)malloc(sizeof(t_env));
 	if (!mini->env)
-		return (NULL);
+		return ;
 	mini->env->env_old = ft_copy_mtx(env);
 	if (!mini->env->env_old)
-		return (NULL);
+		return ;
 	mini->input = NULL;
 	mini->redirect = false;
 	mini->cmd = NULL;

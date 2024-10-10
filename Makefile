@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g 
-LDFLAGS = -lreadline
+CFLAGS = -Wall -Wextra -Werror -g -Ilibft
+LDFLAGS = -Llibft -lft -lreadline
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 SRCS = 	main.c lexer_token.c signals.c built-in.c echo.c echo_utils.c \

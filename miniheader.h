@@ -18,7 +18,7 @@
 # define COLOR_ORANGE "\033[1;38;5;208m"  // Colore arancione
 # define COLOR_RESET "\033[0m"     // Reset del colore
 
-#include "libft/libft.h"
+# include "libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/05 13:05:16 by negambar          #+#    #+#             */
+/*   Updated: 2024/10/05 13:05:16 by negambar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniheader.h"
-//aggiungere libft con ft_printf e sostituire printf con ft_printf e aggiungere header
-void    ft_pwd(void)
+
+void	ft_pwd(void)
 {
 	char	*pwd;
 
@@ -11,6 +23,6 @@ void    ft_pwd(void)
 		return ;
 	}
 	printf("%s\n", pwd);
-	free(pwd);
+	free (pwd);
 	return ;
 }
