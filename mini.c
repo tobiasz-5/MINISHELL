@@ -39,10 +39,11 @@ void	ft_handle_first_token(t_token_node **current, t_mini **mini)
 	t_ptr = (*current)->next;
 	size = 1;
 	while (t_ptr != NULL && t_ptr->type == TOKEN_WORD &&
-			ft_strncmp(t_ptr->next->token, "-", 1) == 0)
+			t_ptr->token[0] == '-')
 	{
 		size++;
-
+		if (t_ptr->next ==  NULL)
+			break;
 		t_ptr = t_ptr->next;
 	}
 	(*mini)->cmd = (char **)malloc((size + 1) * (sizeof(char *)));
@@ -91,7 +92,7 @@ void	ft_free_mini(t_mini **mini)
 	if ((*mini)->input)
 		free((*mini)->input);
 	if ((*mini)->cmd)
-		free((*mini)->cmd);
+		ft_free_mtx((*mini)->cmd);
 	if ((*mini)->export)
 		ft_free_exp(&(*mini)->export);
 	if ((*mini)->env)
