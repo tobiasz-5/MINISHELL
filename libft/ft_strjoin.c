@@ -34,26 +34,22 @@ char	*ft_strjoin_plus(char const *s1, char const *s2, size_t n)
 	return (ptr);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char *ft_strjoin(const char *s1, const char *s2)
 {
-	char	*ptr;
-	size_t	len_1;
-	size_t	len_2;
-	size_t	i;
-	size_t	j;
+    if (!s1 && !s2)
+        return NULL;
+    if (!s1)
+        return ft_strdup(s2);
+    if (!s2)
+        return ft_strdup(s1);
 
-	i = 0;
-	j = 0;
-	len_1 = ft_strlen(s1);
-	len_2 = ft_strlen(s2);
-	ptr = (char *)malloc((len_1 + len_2) + 1);
-	if (!ptr)
-		return (NULL);
-	while (s1[j])
-		ptr[i++] = s1[j++];
-	j = 0;
-	while (s2[j])
-		ptr[i++] = s2[j++];
-	ptr[i] = '\0';
-	return (ptr);
+    size_t len1 = ft_strlen(s1);
+    size_t len2 = ft_strlen(s2);
+    char *str = malloc(len1 + len2 + 1);
+    if (!str)
+        return NULL;
+
+    ft_memcpy(str, s1, len1);
+    ft_memcpy(str + len1, s2, len2 + 1);  // +1 per includere il terminatore null
+    return str;
 }
