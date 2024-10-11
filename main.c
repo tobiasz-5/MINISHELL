@@ -27,7 +27,7 @@ void	process_input(char *input, t_mini **mini)
 	current = tokens;
 	while (current != NULL)
 	{
-		ft_update_mini(&(*mini), &current);//TODO aggiorna cmd, pipe, redirect per eseguirli
+		ft_update_mini(&(*mini), &current);//aggiorna cmd, pipe, redirect per eseguirli
 		if ((*mini)->pipe_check == true)
 			ft_pipe(mini, tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
 		else if (ft_check_cmd((*mini)->cmd) == 1)//TODO 1 builtin | 2 execv
@@ -50,9 +50,7 @@ void	shell_loop(char **env)
 {
 	t_mini	*mini;
 	char	*input;
-	t_env	*environment;
 
-	environment = init_env(env);
 	mini = ft_mini_init(env);
 	if (!mini)
 		return ;
@@ -81,7 +79,10 @@ void	shell_loop(char **env)
 void	main(int ac, char **av, char **env)
 {
 	if (ac > 1 && av)
-		return (printf(COLOR_RED"Usage: %s\t[No Additional Arguments]\n"COLOR_RESET, av[0]), 1);
+	{
+		printf(COLOR_RED"%s\t[No Additional Arguments]\n"COLOR_RESET, av[0]);
+		return (-1);
+	}
 	init_sign();
 	shell_loop(env);
 }
