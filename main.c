@@ -30,11 +30,11 @@ void	process_input(char *input, t_mini **mini)
 		ft_update_mini(&(*mini), &(*current));//aggiorna cmd, pipe, redirect per eseguirli
 		// if ((*mini)->pipe_check == true)
 		// 	ft_pipe(mini, tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
-		// else if (ft_check_cmd((*mini)->cmd) == 1)//TODO 1 builtin | 2 execv
-		// 	handle_builtins(mini);//upgrade gestione builtin
+		/*else*/ if (ft_check_cmd((*mini)->cmd[0]) == 1)/*1 builtin | 2 execv*/
+			handle_builtins(&(*mini));//upgrade gestione builtin
 		// else
-		// 	ft_execv(mini);//TODO
-		// ft_reset((*mini));//TODO
+		// 	ft_execv(&(*mini));//TODO
+		// ft_reset(&(*mini));//TODO
 		(*current) = (*current)->next;
 	}
 	free_tokens (tokens);

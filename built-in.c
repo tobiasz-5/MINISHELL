@@ -12,19 +12,42 @@
 
 #include "miniheader.h"
 
-int	handle_builtins(t_mini	**mini)
+int	check_word(char *input, char *word, size_t n)
 {
-	while (*(*mini)->input == ' ')
-		(*mini)->input++;
-	if (ft_strncmp((*mini)->input, "echo", 3) == 0)
+	size_t i = 0;
+	size_t j = 0;
+
+	while (i < n && input[j] && word[i])
 	{
-		ft_echo((*mini)->input);
-		return (0);
+		if (input[j] == '\'' || input[j] == '"')
+		{
+			j++;
+			continue;
+		}
+		if ((unsigned char)input[j] != (unsigned char)word[i])
+			return ((unsigned char)input[j] - (unsigned char)word[i]);
+		i++;
+		j++;
 	}
-	else if (ft_strncmp((*mini)->input, "pwd", 3) == 0)
-	{
-		ft_pwd();
-		return (0);
-	}
-	return (0);
+	if (i != n)
+		return (1);  // Il comando non corrisponde completamente
+	if (input[j] != ' ' && input[j] != '\0')
+		return (1);  // Il comando è seguito da qualcos'altro
+	return (0);  // Comando riconosciuto correttamente
+}
+
+void	handle_builtins(t_mini	**mini)
+{
+	if (check_word((*mini)->cmd, "echo", 3) == 0)
+		ft_echo((*mini)->input, (*mini)->cmd);//input stringa da stampare e cmd per vedere la flag
+	else if (check_word((*mini)->cmd, "cd", 1) == 0)
+		ft_cd((*mini));
+	else if (check_word((*mini)->cmd, "pwd", 2) == 0)
+		ft_pwd();//DONE
+	else if (check_word((*mini)->cmd, "export", 6) == 0)
+		ft_export(&(*mini));
+	else if (check_word((*mini)->cmd, "unset", 4) == 0)
+		ft_unset(&(*mini)->env)
+	else if (check_word((*mini)->cmd, "env", 2) == 0)
+		ft_env((*mini)->env);
 }
