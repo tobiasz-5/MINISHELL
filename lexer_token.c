@@ -18,7 +18,8 @@ t_token_node	*create_token_node(char *token_str)
 {
 	t_token_node	*token_node;
 
-	token_node = malloc(sizeof(t_token_node));
+	token_node = NULL;
+	token_node = (t_token_node *)malloc(sizeof(t_token_node));
 	if (!token_node)
 		return (NULL);
 	token_node->token = ft_strdup(token_str);
