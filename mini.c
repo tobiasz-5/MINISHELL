@@ -38,10 +38,11 @@ void	ft_handle_first_token(t_token_node **current, t_mini **mini)
 		return ;
 	t_ptr = (*current)->next;
 	size = 1;
-	while (t_ptr->type == TOKEN_WORD &&
-			ft_strncmp(t_ptr->next->token, "-", 1) == 0);
+	while (t_ptr != NULL && t_ptr->type == TOKEN_WORD &&
+			ft_strncmp(t_ptr->next->token, "-", 1) == 0)
 	{
 		size++;
+
 		t_ptr = t_ptr->next;
 	}
 	(*mini)->cmd = (char **)malloc((size + 1) * (sizeof(char *)));
@@ -105,13 +106,13 @@ t_mini	*ft_mini_init(char **env)
 	mini = NULL;
 	mini = (t_mini *)malloc(sizeof(t_mini));
 	if (!mini)
-		return ;
+		return (NULL);
 	mini->env = (t_env *)malloc(sizeof(t_env));
 	if (!mini->env)
-		return ;
+		return (NULL);
 	mini->env->env_old = ft_copy_mtx(env);
 	if (!mini->env->env_old)
-		return ;
+		return (NULL);
 	mini->input = NULL;
 	mini->redirect = false;
 	mini->cmd = NULL;

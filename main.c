@@ -15,7 +15,7 @@
 void	process_input(char *input, t_mini **mini)
 {
     t_token_node *tokens;	       // Variabile che conterrà la lista di token			
-    t_token_node *current;
+    t_token_node **current;
 
     add_history(input);
     tokens = lexer(input);
@@ -24,18 +24,18 @@ void	process_input(char *input, t_mini **mini)
 	    printf(COLOR_RED "Error creating tokens.\n"COLOR_RESET);
     	return;
 	}
-	current = tokens;
-	while (current != NULL)
+	current = &tokens;
+	while ((*current) != NULL)
 	{
-		ft_update_mini(&(*mini), &current);//aggiorna cmd, pipe, redirect per eseguirli
-		if ((*mini)->pipe_check == true)
-			ft_pipe(mini, tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
-		else if (ft_check_cmd((*mini)->cmd) == 1)//TODO 1 builtin | 2 execv
-			handle_builtins(mini);//upgrade gestione builtin
-		else
-			ft_execv(mini);//TODO
-		ft_reset((*mini));//TODO
-		current = current->next;
+		ft_update_mini(&(*mini), &(*current));//aggiorna cmd, pipe, redirect per eseguirli
+		// if ((*mini)->pipe_check == true)
+		// 	ft_pipe(mini, tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
+		// else if (ft_check_cmd((*mini)->cmd) == 1)//TODO 1 builtin | 2 execv
+		// 	handle_builtins(mini);//upgrade gestione builtin
+		// else
+		// 	ft_execv(mini);//TODO
+		// ft_reset((*mini));//TODO
+		(*current) = (*current)->next;
 	}
 	free_tokens (tokens);
 }
@@ -76,7 +76,7 @@ void	shell_loop(char **env)
 	rl_clear_history();                     // Pulisce la history prima di uscire
 }
 
-void	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
 	if (ac > 1 && av)
 	{
