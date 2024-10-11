@@ -6,7 +6,7 @@
 /*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:46:39 by negambar          #+#    #+#             */
-/*   Updated: 2024/10/10 16:54:38 by negambar         ###   ########.fr       */
+/*   Updated: 2024/10/11 11:52:05 by negambar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ int	no_doll(t_mini *mtx, char *input, int i)
 	char	**new_env;
 
 	j = 0;
-	if (!not_existing(mtx, input, i))
-		return (printf(COLOR_RED "Variable already set or missing \
-'$'" COLOR_RESET), 0);
 	new_env = fresh_mtx(mtx->env->env_new);
 	if (!new_env)
 		return (printf("Memory allocation failed\n"));
@@ -38,19 +35,8 @@ int	no_doll(t_mini *mtx, char *input, int i)
 	return (1);
 }
 
-static int	doll(t_mini *mtx, char *input, int i)
+static int	doll(t_mini *mtx, char *input, int i, int j)
 {
-	int	j;
-
-	i += 1;
-	j = -1;
-	while (mtx->env->env_new[++j])
-	{
-		if (dollar_check(mtx->env->env_new[j], &input[i], '=') == 0)
-			break ;
-	}
-	if (!mtx->env->env_new[j])
-		freenew(mtx);
 	free(mtx->env->env_new[j]);
 	mtx->env->env_new[j] = strdup(&input[i]);
 	return (1);
@@ -59,13 +45,26 @@ static int	doll(t_mini *mtx, char *input, int i)
 int	ft_exp(t_mini *mtx, char *input)
 {
 	int	i;
+	int	j;
 
+	j = 0;
 	i = 0;
 	i = skip_echo("export", input, 0);
 	i = skip_spaces(input, i);
-	if (input[i] != '$')
+	while (mtx->env->env_new[j])
+	{
+		if (dollar_check(mtx->env->env_new[j], &input[i], '=') == 0){
+			printf("string number: %d\n", j);
+			return(doll(mtx, input, i, j), 1);
+			}
+		j++;
+	}
+	if (!mtx->env->env_new[j] && ft_strnstr(input, "=", ft_strlen(input)))
 		no_doll(mtx, input, i);
 	else
-		doll(mtx, input, i);
+	{
+		printf(COLOR_RED"check input\n"COLOR_RESET);
+		return (0);
+	}
 	return (1);
 }
