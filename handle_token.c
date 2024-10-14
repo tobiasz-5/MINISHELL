@@ -49,7 +49,7 @@ void	ft_handle_world(t_mini **mini, t_token_node *current)
 {
 	char	*tmp;
 
-	printf("INPUT TOKEN WORD : %s\n", current->token);
+	// printf("INPUT TOKEN WORD : %s\n", current->token);
 	tmp = NULL;
 	if ((*mini)->input == NULL)
 		(*mini)->input = ft_strdup((const char *)current->token);

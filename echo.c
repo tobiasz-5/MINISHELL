@@ -12,13 +12,24 @@
 
 #include "miniheader.h"
 
+static int skipecho(char *input, char *echo)
+{
+	int i;
+
+	i = 0;
+	while ((input[i] == echo[i]) || (input[i] == ' '))
+		i++;
+	return (i);
+}
+
 void	ft_echo(char *input, char **cmd)
 {
 	int		flag_quotes;
 	int		i;
 
-	flag_quotes = closed_quote(input, ft_strlen(input));
 	i = 0;
+	i = skipecho(input, "echo ");
+	flag_quotes = closed_quote(input, ft_strlen(input));
 	while (input[i])
 	{
 		if (input[i] == '"' && flag_quotes)
@@ -28,7 +39,7 @@ void	ft_echo(char *input, char **cmd)
 		write(1, &input[i], 1);
 		i++;
 	}
-	if (cmd[1] && ft_strcmp(cmd[1], "-n") == 0)
+	if (!cmd[1])
 		write(1, "\n", 1);
 	return ;
 }
