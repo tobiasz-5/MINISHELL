@@ -16,6 +16,8 @@ int	handle_builtins(t_mini	**mini)
 {
 	while (*(*mini)->input == ' ')
 		(*mini)->input++;
+	printf("handle_builtins\n");
+	printf("mini->cmd[0] = %s\n", (*mini)->cmd[0]);
 	if (ft_strncmp((*mini)->input, "echo", 3) == 0)
 	{
 		ft_echo((*mini)->input);
