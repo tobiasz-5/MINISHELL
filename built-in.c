@@ -38,16 +38,16 @@ int	check_word(char *input, char *word, size_t n)
 
 void	handle_builtins(t_mini	**mini)
 {
-	if (check_word((*mini)->cmd, "echo", 3) == 0)
+	if (check_word((*mini)->cmd[0], "echo", 3) == 0)
 		ft_echo((*mini)->input, (*mini)->cmd);//input stringa da stampare e cmd per vedere la flag
-	else if (check_word((*mini)->cmd, "cd", 1) == 0)
-		ft_cd((*mini));
-	else if (check_word((*mini)->cmd, "pwd", 2) == 0)
-		ft_pwd();//DONE
-	else if (check_word((*mini)->cmd, "export", 6) == 0)
-		ft_export(&(*mini));
-	else if (check_word((*mini)->cmd, "unset", 4) == 0)
-		ft_unset(&(*mini)->env)
-	else if (check_word((*mini)->cmd, "env", 2) == 0)
-		ft_env((*mini)->env);
+	// else if (check_word((*mini)->cmd[0], "cd", 1) == 0)
+	// 	ft_cd((*mini));
+	// else if (check_word((*mini)->cmd[0], "pwd", 2) == 0)
+	// 	ft_pwd();//DONE
+	// else if (check_word((*mini)->cmd[0], "export", 6) == 0)
+	// 	ft_export(&(*mini));
+	// else if (check_word((*mini)->cmd[0], "unset", 4) == 0)
+	// 	ft_unset(&(*mini)->env);
+	// else if (check_word((*mini)->cmd[0], "env", 2) == 0)
+	// 	ft_env((*mini)->env);
 }
