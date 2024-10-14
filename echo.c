@@ -17,9 +17,7 @@ void	ft_echo(char *input, char **cmd)
 	int		flag_quotes;
 	int		i;
 
-	printf("input: %s\n", input);
 	flag_quotes = closed_quote(input, ft_strlen(input));
-	printf("ECHO\n");
 	i = 0;
 	while (input[i])
 	{

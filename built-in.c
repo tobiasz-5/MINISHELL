@@ -40,7 +40,6 @@ void	handle_builtins(t_mini	**mini)
 {
 	if (check_word((*mini)->cmd[0], "echo", 4) == 0)
 	{
-		printf("BUILTIN\n");
 		ft_echo((*mini)->input, (*mini)->cmd);
 	}//input stringa da stampare e cmd per vedere la flag
 	/* else if (check_word((*mini)->cmd, "cd", 1) == 0)

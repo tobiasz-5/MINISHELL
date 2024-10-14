@@ -34,16 +34,11 @@ void	ft_handle_first_token(t_token_node **current, t_mini **mini)
 	int				i;
 	
 	i = 0;
-	if ((*current)->type != TOKEN_WORD)
-		return ;
 	t_ptr = (*current)->next;
 	size = 1;
-	while (t_ptr != NULL && t_ptr->type == TOKEN_WORD &&
-			t_ptr->token[0] == '-')
+	while (t_ptr != NULL && ft_strncmp((const char *)t_ptr->token, "-", 1) == 0)
 	{
 		size++;
-		if (t_ptr->next ==  NULL)
-			break;
 		t_ptr = t_ptr->next;
 	}
 	(*mini)->cmd = (char **)malloc((size + 1) * (sizeof(char *)));
@@ -62,9 +57,9 @@ void	ft_update_mini(t_mini **mini,t_token_node **current)
 {
 	t_token_node	*t_ptr;
 
+	ft_handle_first_token(&(*current), &(*mini));//vede se il primo token è un comando e se si fa t_ptr = next;
 	t_ptr = (*current);
-	ft_handle_first_token(&t_ptr, &(*mini));//vede se il primo token è un comando e se si fa t_ptr = next;
-	while (t_ptr)//controlla il token finchè non da NULL
+	while (t_ptr != NULL)//controlla il token finchè non da NULL
 	{
 		if (ft_strncmp((const char *)t_ptr->token, "$", 1) == 0)//DOLLAR CASE
 			ft_handle_dollar(&(*mini), (*current));

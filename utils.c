@@ -15,10 +15,7 @@
 int	ft_check_cmd(char *cmd)
 {
 	if (check_word(cmd, "echo", 4) == 0)
-	{
-		printf("ECHO\n");
 		return (1);
-	}
 	else if (check_word(cmd, "cd", 1) == 0)
 		return (1);
 	else if (check_word(cmd, "pwd", 2) == 0)
