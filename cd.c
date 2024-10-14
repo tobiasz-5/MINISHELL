@@ -6,13 +6,34 @@
 /*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 18:40:38 by girindi           #+#    #+#             */
-/*   Updated: 2024/10/10 16:59:00 by negambar         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:49:28 by negambar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniheader.h"
 
-void	cd(char *input)
+static void find_oldpwd(t_mini *old)
+{
+	int	i;
+	char *new_oldpwd;
+
+	i = 0;
+	new_oldpwd = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
+	if (!new_oldpwd)
+		return ;
+	while (old->env->env_new[i])
+	{
+		if (ft_strncmp(old->env->env_new[i], "OLDPWD=", 6) == 0)
+		{
+			free(old->env->env_new[i]);
+			old->env->env_new[i] = new_oldpwd;
+			break ;
+		}
+		i++;
+	}
+}
+
+void	cd(char *input, t_mini *old)
 {
 	int	i;
 
@@ -25,11 +46,15 @@ void	cd(char *input)
 		if (chdir(&input[i]))
 			ft_printf("cd: no such file or directory: %s", &input[i]);
 	}
-	else if (input[i] == '.' && input[i + 1] == '.' && \
-			(input[i + 2] == ' ' || input[i + 2] == '\0'))
-		cd_back_dir(&input[i]);
 	else
-		cd_rel_path(input, i);
+	{
+		find_oldpwd(old);
+		if (input[i + 1] == '.' && input[i + 2] == '.' && \
+				(input[i + 1] == ' ' || input[i + 1] == '\0'))
+			cd_back_dir(&input[i]);
+		else
+			cd_rel_path(input, i);
+	}
 	return ;
 }
 
