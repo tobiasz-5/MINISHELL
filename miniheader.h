@@ -89,7 +89,6 @@ typedef struct s_mini
 	t_env	*env;
 }	t_mini;
 //cambiare strdup con ft_strdup //TODO
-int				check_word(char *input, char *word, size_t n);
 int				ft_check_cmd(char *cmd);
 char			**ft_copy_cmd(t_token_node *current);
 int				ft_check_token(t_token_node *t_ptr, t_token_node **start);
@@ -112,8 +111,10 @@ t_mini			*ft_mini_init(char **env);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 void			handle_builtins(t_mini **mini);
+int				check_word(char *cmd, char *word, int len);
 void			ft_pwd();
-void			ft_echo(char *input);
+void			ft_cd(char *input, t_mini *old);
+void			ft_echo(char *input, char **cmd);
 void			init_sign(void);
 int				closed_quote(char *str, int i);
 int				check_forn(char *input, int i);

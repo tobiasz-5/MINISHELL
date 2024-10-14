@@ -14,8 +14,11 @@
 
 int	ft_check_cmd(char *cmd)
 {
-	if (check_word(cmd, "echo", 3) == 0)
+	if (check_word(cmd, "echo", 4) == 0)
+	{
+		printf("ECHO\n");
 		return (1);
+	}
 	else if (check_word(cmd, "cd", 1) == 0)
 		return (1);
 	else if (check_word(cmd, "pwd", 2) == 0)
@@ -27,7 +30,7 @@ int	ft_check_cmd(char *cmd)
 	else if (check_word(cmd, "env", 2) == 0)
 		return (1);
 	else
-		return (2);
+		return (0);
 }
 
 void	ft_free_env(t_env **env)
