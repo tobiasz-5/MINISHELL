@@ -12,7 +12,7 @@
 
 #include "miniheader.h"
 
-static int skipecho(char *input, char *echo)
+int ft_skip(char *input, char *echo)
 {
 	int i;
 
@@ -28,7 +28,7 @@ void	ft_echo(char *input, char **cmd)
 	int		i;
 
 	i = 0;
-	i = skipecho(input, "echo ");
+	i = ft_skip(input, "echo ");
 	flag_quotes = closed_quote(input, ft_strlen(input));
 	while (input[i])
 	{

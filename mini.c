@@ -109,6 +109,7 @@ t_mini	*ft_mini_init(char **env)
 	mini->env->env_old = ft_copy_mtx(env);
 	if (!mini->env->env_old)
 		return (NULL);
+	mini->env->env_new = ft_copy_mtx(env);
 	mini->input = NULL;
 	mini->redirect = false;
 	mini->cmd = NULL;
