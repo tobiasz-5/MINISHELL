@@ -23,24 +23,7 @@ int	closed_quote(char *str, int i)
 			quote++;
 		i--;
 	}
-	if (quote % 2 != 0)
+	if (quote % 2 != 0 && quote != 0)
 		return (0);
 	return (1);
-}
-
-int	check_forn(char *input, int i)
-{
-	int	flag;
-
-	flag = 0;
-	while (input[i])
-	{
-		if (input[i] == '-' && input[i + 1] == 'n')
-			flag = 1;
-		if (input[i] != 'e' && input[i] != 'c' && input[i] != 'h'
-			&& input[i] != 'o' && input[i] != ' ')
-			break ;
-		i++;
-	}
-	return (flag);
 }
