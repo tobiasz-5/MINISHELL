@@ -15,6 +15,7 @@
 void	ft_pwd(void)
 {
 	char	*pwd;
+	printf("pwd\n");
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)

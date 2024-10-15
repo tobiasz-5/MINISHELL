@@ -7,6 +7,7 @@ static void	ft_dollar_util(t_mini **mini, t_token_node *current)
 	t_exp	*ptr;
 	size_t	i;
 
+	i = 0;
 	false_s = NULL;
 	ptr = (*mini)->export;
 	tmp = ft_strdup((const char *)(*mini)->input);
@@ -48,11 +49,10 @@ void	ft_handle_world(t_mini **mini, t_token_node *current)
 {
 	char	*tmp;
 
+	// printf("INPUT TOKEN WORD : %s\n", current->token);
 	tmp = NULL;
-	if ((*mini)->cmd == NULL)
-		(*mini)->cmd = ft_copy_cmd(current);//TODO
-	else if ((*mini)->input == NULL)
-		ft_strdup((const char *)current->token);
+	if ((*mini)->input == NULL)
+		(*mini)->input = ft_strdup((const char *)current->token);
 	else
 	{
 		tmp = ft_strjoin((const char *)(*mini)->input, " ");
