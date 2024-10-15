@@ -89,6 +89,7 @@ typedef struct s_mini
 	t_env	*env;
 }	t_mini;
 //cambiare strdup con ft_strdup //TODO
+int				ft_check_cmd(char *cmd);
 char			**ft_copy_cmd(t_token_node *current);
 int				ft_check_token(t_token_node *t_ptr, t_token_node **start);
 void			ft_handle_first_token(t_token_node **current, t_mini **mini);
@@ -103,19 +104,26 @@ void			ft_free_mini(t_mini **mini);
 int				ft_check_token(t_token_node *t_ptr, t_token_node **start);
 void			ft_handle_first_token(t_token_node **current, t_mini **mini);
 void			ft_update_mini(t_mini **mini,t_token_node **current);
-char			**ft_copy_mtx(char **mtx);
-void			ft_free_env(t_env **env);
-void			ft_free_exp(t_exp **export);
 t_mini			*ft_mini_init(char **env);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 void			ft_pipe(t_mini **mini, t_token_node *current);
-int				handle_builtins(t_mini **mini);
 void			ft_pwd();
-void			ft_echo(char *input);
 void			init_sign(void);
+int				check_word(char *cmd, char *word, int len);
+void			ft_echo(char *input, char **cmd);
 int				closed_quote(char *str, int i);
 int				check_forn(char *input, int i);
+int				ft_skip(char *input, char *echo);
+void			ft_cd(t_mini *old);
+void			handle_builtins(t_mini **mini);
+char			**ft_copy_mtx(char **mtx);
+void			ft_free_env(t_env **env);
+void			ft_free_exp(t_exp **export);
+void			get_env(t_mini *old);
+
+
+void			init_sign(void);
 const char		*token_type_to_string(t_token_type type);
 t_token_node	*lexer(char *input);
 void			process_input(char *input, t_mini **mini);
