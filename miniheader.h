@@ -89,11 +89,11 @@ typedef struct s_mini
 	t_env	*env;
 }	t_mini;
 //cambiare strdup con ft_strdup //TODO
+void			ft_reset(t_mini **mini);
 int				ft_check_cmd(char *cmd);
 char			**ft_copy_cmd(t_token_node *current);
 int				ft_check_token(t_token_node *t_ptr, t_token_node **start);
 void			ft_handle_first_token(t_token_node **current, t_mini **mini);
-void			ft_free_selected_mini(t_mini **mini);
 void			ft_handle_heredoc(t_mini **mini, t_token_node *current);
 void			ft_handle_append(t_mini **mini, t_token_node **current);
 void			ft_handle_dollar(t_mini **mini, t_token_node *current);

@@ -16,13 +16,19 @@ void	process_input(char *input, t_mini **mini)
 {
     t_token_node *tokens;	       // Variabile che conterrà la lista di token			
     t_token_node **current;
-
+    t_token_node *ptr;	       // Variabile che conterrà la lista di token			
     add_history(input);
     tokens = lexer(input);
 	if (!tokens)
 	{
 	    printf(COLOR_RED "Error creating tokens.\n"COLOR_RESET);
     	return;
+	}
+	ptr = tokens;
+	while (ptr != NULL)
+	{
+		printf("token : %s\n", ptr->token);
+		ptr = ptr->next;
 	}
 	current = &tokens;
 	while ((*current) != NULL)
@@ -37,9 +43,9 @@ void	process_input(char *input, t_mini **mini)
 			}
 		// else
 		// 	ft_execv(&(*mini));//TODO
-		// ft_reset(&(*mini));//TODO
 		(*current) = (*current)->next;
 	}
+	ft_reset(&(*mini));//TODO
 	free_tokens (tokens);
 }
 
@@ -72,7 +78,6 @@ void	shell_loop(char **env)
 			continue ;
 		}
 		process_input(input, &mini);
-		ft_free_selected_mini(&mini);//TODO free e setta alcune variabili per il nuovo promt eccetto es. export, env
 		free(input);
 	}
 	ft_free_mini(&mini);

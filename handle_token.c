@@ -48,17 +48,24 @@ void	ft_handle_dollar(t_mini **mini, t_token_node *current)
 void	ft_handle_world(t_mini **mini, t_token_node *current)
 {
 	char	*tmp;
-
-	printf("INPUT TOKEN WORD : %s\n", current->token);
+	printf("TOKEN :%s\n", current->token);
+	printf("INPUT BEFORE :%s\n", (*mini)->input);
 	tmp = NULL;
-	if ((*mini)->input == NULL)
-		(*mini)->input = ft_strdup((const char *)current->token);
-	else
+	if (current->token == NULL)
+		return ;
+	if ((*mini)->input != NULL)
 	{
 		tmp = ft_strjoin((const char *)(*mini)->input, " ");
 		free((*mini)->input);
-		(*mini)->input = ft_strjoin((const char *)tmp, current->token);
+		(*mini)->input = NULL;		
+		(*mini)->input = ft_strjoin(tmp, (const char *)current->token);
 		free(tmp);
+		printf("INPUT AFTER :%s\n", (*mini)->input);
+	}
+	else
+	{
+		(*mini)->input = ft_strdup((const char *)current->token);
+		return ;
 	}
 }
 

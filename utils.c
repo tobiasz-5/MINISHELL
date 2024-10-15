@@ -12,6 +12,24 @@
 
 #include "miniheader.h"
 
+void	ft_reset(t_mini **mini)
+{
+	if ((*mini)->cmd)
+	{
+		ft_free_mtx((*mini)->cmd);
+		(*mini)->cmd = NULL;
+	}
+	if ((*mini)->pipe_check == true)
+		(*mini)->pipe_check = false;
+	if ((*mini)->redirect == true)
+		(*mini)->redirect = false;
+	if ((*mini)->input)
+	{
+		free((*mini)->input);
+		(*mini)->input = NULL;
+	}
+}
+
 int	ft_check_cmd(char *cmd)
 {
 	if (check_word(cmd, "echo", 4) == 0)

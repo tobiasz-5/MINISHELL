@@ -21,14 +21,17 @@ void	ft_echo(char *input, char **cmd)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == '"' && flag_quotes)
+		if (input[i] == ' ' || input[i] == '\t')
+			i++;
+		else if (input[i] == '"' && flag_quotes)
 			i++;
 		else if (input[i] == '"' && !flag_quotes)
 			write(1, &input[i++], 1);
-		write(1, &input[i], 1);
+		else
+			write(1, &input[i], 1);
 		i++;
 	}
 	if (cmd[1] && ft_strcmp(cmd[1], "-n") == 0)
-		write(1, "\n", 1);
+		printf("\n");
 	return ;
 }

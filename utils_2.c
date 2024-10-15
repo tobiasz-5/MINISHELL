@@ -57,16 +57,6 @@ char	**ft_copy_cmd(t_token_node *current)
 	return (mtx);
 }
 
-void	ft_free_selected_mini(t_mini **mini)
-{
-	(*mini)->pipe_check = false;
-	(*mini)->redirect = false;
-	if ((*mini)->input)
-		free((*mini)->input);
-	if ((*mini)->cmd)
-		ft_free_mtx((*mini)->cmd);
-}
-
 char	**ft_copy_mtx(char **mtx)
 {
 	char	**new;
