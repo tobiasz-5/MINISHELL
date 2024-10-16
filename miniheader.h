@@ -18,6 +18,7 @@
 # define COLOR_ORANGE "\033[1;38;5;208m"  // Colore arancione
 # define COLOR_RESET "\033[0m"     // Reset del colore
 
+#include <sys/wait.h>
 # include "libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
@@ -90,11 +91,12 @@ typedef struct s_mini
 	t_env	*env;
 }	t_mini;
 //cambiare strdup con ft_strdup //TODO
+char			**ft_mtx_execv(char *input, char **cmd);
+void			ft_execv(t_mini **mini);
+void			ft_reset(t_mini **mini);
 int				ft_check_cmd(char *cmd);
 char			**ft_copy_cmd(t_token_node *current);
-int				ft_check_token(t_token_node *t_ptr, t_token_node **start);
 void			ft_handle_first_token(t_token_node **current, t_mini **mini);
-void			ft_free_selected_mini(t_mini **mini);
 void			ft_handle_heredoc(t_mini **mini, t_token_node *current);
 void			ft_handle_append(t_mini **mini, t_token_node **current);
 void			ft_handle_dollar(t_mini **mini, t_token_node *current);
@@ -102,13 +104,12 @@ void			ft_handle_red_in(t_mini **mini, t_token_node **current);
 void			ft_handle_red_out(t_mini **mini, t_token_node **current);
 void			ft_handle_world(t_mini **mini, t_token_node *current);
 void			ft_free_mini(t_mini **mini);
-int				ft_check_token(t_token_node *t_ptr, t_token_node **start);
 void			ft_handle_first_token(t_token_node **current, t_mini **mini);
 void			ft_update_mini(t_mini **mini,t_token_node **current);
 t_mini			*ft_mini_init(char **env);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
-void			ft_pipe(t_mini **mini, t_token_node *current);
+void			ft_pipe(t_mini *mini, t_token_node *current);
 void			ft_pwd();
 void			init_sign(void);
 int				check_word(char *cmd, char *word, int len);

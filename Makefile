@@ -7,8 +7,9 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRCS = 	main.c lexer_token.c signals.c built-in.c echo.c echo_utils.c \
 		utils.c token_type.c tokenizer_utils.c token_analyze_utils.c \
 		process_token.c lexer_utils.c free_tokens.c pwd.c mini.c \
-		handle_token.c utils_2.c handle_token2.c cd.c env.c ft_exp.c \
-		ft_exp_utils.c pipe.c
+		handle_token.c utils_2.c handle_token2.c cd.c env.c ft_execv.c \
+		pipe.c
+
 OBJS = $(SRCS:.c=.o)
 
 all: $(LIBFT) $(NAME) mini_art

@@ -32,11 +32,14 @@ void	ft_echo(char *input, char **cmd)
 	flag_quotes = closed_quote(input, ft_strlen(input));
 	while (input[i])
 	{
-		if (input[i] == '"' && flag_quotes)
+		if (input[i] == ' ' || input[i] == '\t')
+			i++;
+		else if (input[i] == '"' && flag_quotes)
 			i++;
 		else if (input[i] == '"' && !flag_quotes)
 			write(1, &input[i++], 1);
-		write(1, &input[i], 1);
+		else
+			write(1, &input[i], 1);
 		i++;
 	}
 	if (!cmd[1])

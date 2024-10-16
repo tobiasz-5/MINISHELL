@@ -16,7 +16,7 @@ void	process_input(char *input, t_mini **mini)
 {
     t_token_node *tokens;	       // Variabile che conterrà la lista di token			
     t_token_node **current;
-
+			
     add_history(input);
     tokens = lexer(input);
 	if (!tokens)
@@ -28,18 +28,20 @@ void	process_input(char *input, t_mini **mini)
 	while ((*current) != NULL)
 	{
 		ft_update_mini(mini, current);//aggiorna cmd, pipe, redirect per eseguirli
-		// if ((*mini)->pipe_check == true)
-		// 	ft_pipe(mini, tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
-		/*else*/ if (ft_check_cmd((*mini)->cmd[0]) == 1)/*1 builtin | 2 execv*/
+		if ((*mini)->pipe_check == true)
+			ft_pipe((*mini), tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
+		else if (ft_check_cmd((*mini)->cmd[0]) == 1)/*1 builtin | 2 execv*/
 			{
 				handle_builtins(&(*mini));
 				break ;//upgrade gestione builtin
 			}
-		// else
-		// 	ft_execv(&(*mini));//TODO
-		// ft_reset(&(*mini));//TODO
+		else
+			ft_execv(&(*mini));//TODO
+		if ((*current) == NULL || (*current)->next == NULL)
+			break ;
 		(*current) = (*current)->next;
 	}
+	ft_reset(&(*mini));
 	free_tokens (tokens);
 }
 
@@ -71,7 +73,6 @@ void	shell_loop(char **env)
 			continue ;
 		}
 		process_input(input, &mini);
-		ft_free_selected_mini(&mini);//TODO free e setta alcune variabili per il nuovo promt eccetto es. export, env
 		free(input);
 	}
 	ft_free_mini(&mini);

@@ -12,17 +12,15 @@
 
 #include "miniheader.h"
 
-int	ft_check_token(t_token_node *t_ptr, t_token_node **start)
+static int	ft_check_token(t_token_node **start)
 {
 	t_token_node	*ptr;
 
-	if (!t_ptr)
-		return (1);
 	ptr = (*start);
-	while (ptr->next != t_ptr)
-		ptr = ptr->next;
-	if (ptr->type == TOKEN_PIPE)
+	if (!ptr)
 		return (1);
+	// if (ptr->type == TOKEN_PIPE)
+	// 	return (1);
 	else
 		return (0);
 }
@@ -55,28 +53,26 @@ void	ft_handle_first_token(t_token_node **current, t_mini **mini)
 
 void	ft_update_mini(t_mini **mini,t_token_node **current)
 {
-	t_token_node	*t_ptr;
-
-	ft_handle_first_token(&(*current), &(*mini));//vede se il primo token è un comando e se si fa t_ptr = next;
-	t_ptr = (*current);
-	while (t_ptr != NULL)//controlla il token finchè non da NULL
+	ft_handle_first_token(&(*current), &(*mini));//vede se il primo token è un comando e se si fa (*current) = next;
+	
+	while ((*current) != NULL)//controlla il token finchè non da NULL
 	{
-		if (ft_strncmp((const char *)t_ptr->token, "$", 1) == 0)//DOLLAR CASE
+		if (ft_strncmp((const char *)(*current)->token, "$", 1) == 0)//DOLLAR CASE
 			ft_handle_dollar(&(*mini), (*current));
-		else if (t_ptr->type == TOKEN_WORD)
+		else if ((*current)->type == TOKEN_WORD)
 			ft_handle_world(&(*mini), (*current));
-		else if (t_ptr->type == TOKEN_PIPE)
+		else if ((*current)->type == TOKEN_PIPE)
 			(*mini)->pipe_check = true;
-		else if (t_ptr->type == TOKEN_HEREDOC)
+		else if ((*current)->type == TOKEN_HEREDOC)
 			ft_handle_heredoc(&(*mini), (*current));
-		else if (t_ptr->type == TOKEN_REDIR_APPEND)
+		else if ((*current)->type == TOKEN_REDIR_APPEND)
 			ft_handle_append(&(*mini), &(*current));
-		else if (t_ptr->type == TOKEN_REDIR_IN)
+		else if ((*current)->type == TOKEN_REDIR_IN)
 			ft_handle_red_in(&(*mini), &(*current));
-		else if (t_ptr->type == TOKEN_REDIR_OUT)
+		else if ((*current)->type == TOKEN_REDIR_OUT)
 			ft_handle_red_out(&(*mini), &(*current));
-		t_ptr = t_ptr->next;
-		if (ft_check_token(t_ptr, &(*current)) == 1)//se trova la pipe nel token precendete esce (unico caso in cui uscire senno da errore automaticamente)
+		(*current) = (*current)->next;
+		if (ft_check_token(current) == 1)//se trova la pipe nel token precendete esce (unico caso in cui uscire senno da errore automaticamente)
 			break ;
 	}
 }
