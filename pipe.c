@@ -6,35 +6,32 @@
 /*   By: giulio <giulio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 17:14:18 by giulio            #+#    #+#             */
-/*   Updated: 2024/10/15 18:27:52 by giulio           ###   ########.fr       */
+/*   Updated: 2024/10/16 19:16:13 by giulio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniheader.h"
 
-int counter_token(t_token_node *current, t_token_node **tmp)
+
+static int	ft_lstcount(t_token_node *lst)
 {
-	int i;
+	int		i;
 
 	i = 0;
-	while ((*tmp) != NULL)
+	while (lst)
 	{
 		i++;
-		(*tmp) = (*tmp)->next;
+		lst = lst -> next;
 	}
 	return (i);
 }
-
 void	ft_pipe(t_mini **mini, t_token_node *current)
 {
 	int fd[2];
 	pid_t pid;
-	t_token_node *tmp;
 	int counter;
 	
-	counter = 0;
-	tmp = current;
-	counter = counter_token(current, &tmp);
+	counter = ft_lstcount(current);
 	while (counter > 0)
 	{
 		pipe(fd);
@@ -56,5 +53,5 @@ void	ft_pipe(t_mini **mini, t_token_node *current)
 		}
 		counter--;
 	}
-	
+	printf("mini->cmd[0] = %s\n", (*mini)->cmd[0]);
 }
