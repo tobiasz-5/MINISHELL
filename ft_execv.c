@@ -65,6 +65,8 @@ void	ft_execv(t_mini **mini)
 	{
 		waitpid(pid, &status, 0);
 		(*mini)->exit_status = pid;
+		free(path);
+		ft_free_mtx(mtx_cmd);
 	}
 	else
 		perror("error fork\n");
