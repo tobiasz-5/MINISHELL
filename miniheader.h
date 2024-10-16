@@ -120,7 +120,11 @@ char			**ft_copy_mtx(char **mtx);
 void			ft_free_env(t_env **env);
 void			ft_free_exp(t_exp **export);
 void			get_env(t_mini *old);
-
+int				ft_exp(t_mini **mtx);
+void			freenew(t_mini *mtx);
+char			**fresh_mtx(char **mtx);
+int				dollar_check(const char *s1, const char *s2, char c);
+int				not_existing(t_mini *mtx, char *input, int i);
 
 void			init_sign(void);
 const char		*token_type_to_string(t_token_type type);
