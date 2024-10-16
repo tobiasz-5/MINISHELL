@@ -16,19 +16,13 @@ void	process_input(char *input, t_mini **mini)
 {
     t_token_node *tokens;	       // Variabile che conterrà la lista di token			
     t_token_node **current;
-    t_token_node *ptr;	       // Variabile che conterrà la lista di token			
+			
     add_history(input);
     tokens = lexer(input);
 	if (!tokens)
 	{
 	    printf(COLOR_RED "Error creating tokens.\n"COLOR_RESET);
     	return;
-	}
-	ptr = tokens;
-	while (ptr != NULL)
-	{
-		printf("token : %s\n", ptr->token);
-		ptr = ptr->next;
 	}
 	current = &tokens;
 	while ((*current) != NULL)
@@ -41,8 +35,10 @@ void	process_input(char *input, t_mini **mini)
 				handle_builtins(&(*mini));
 				break ;//upgrade gestione builtin
 			}
-		// else
-		// 	ft_execv(&(*mini));//TODO
+		else
+			ft_execv(&(*mini));//TODO
+		if ((*current) == NULL || (*current)->next == NULL)
+			break ;
 		(*current) = (*current)->next;
 	}
 	ft_reset(&(*mini));

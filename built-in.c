@@ -46,7 +46,10 @@ void	handle_builtins(t_mini	**mini)
 	else if (check_word((*mini)->cmd[0], "pwd", 3) == 0)
 		ft_pwd();//DONE
 	else if (check_word((*mini)->cmd[0], "env", 3) == 0)
-		{printf("ENV\n");get_env(*mini);}
+	{
+		printf("ENV\n");
+		get_env(*mini);
+	}
 	/* else if (check_word((*mini)->cmd, "export", 6) == 0)
 		ft_export(&(*mini));
 	else if (check_word((*mini)->cmd, "unset", 4) == 0)
