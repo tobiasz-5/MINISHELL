@@ -45,7 +45,7 @@ void	process_input(char *input, t_mini **mini)
 		// 	ft_execv(&(*mini));//TODO
 		(*current) = (*current)->next;
 	}
-	ft_reset(&(*mini));//TODO
+	ft_reset(&(*mini));
 	free_tokens (tokens);
 }
 

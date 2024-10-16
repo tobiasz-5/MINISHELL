@@ -34,18 +34,18 @@ int	ft_check_cmd(char *cmd)
 {
 	if (check_word(cmd, "echo", 4) == 0)
 		return (1);
-	else if (check_word(cmd, "cd", 1) == 0)
+	else if (check_word(cmd, "cd", 2) == 0)
 		return (1);
-	else if (check_word(cmd, "pwd", 2) == 0)
+	else if (check_word(cmd, "pwd", 3) == 0)
 		return (1);
 	else if (check_word(cmd, "export", 6) == 0)
 		return (1);
 	else if (check_word(cmd, "unset", 4) == 0)
 		return (1);
-	else if (check_word(cmd, "env", 2) == 0)
+	else if (check_word(cmd, "env", 3) == 0)
 		return (1);
 	else
-		return (0);
+		return (2);
 }
 
 void	ft_free_env(t_env **env)

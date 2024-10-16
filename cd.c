@@ -6,7 +6,7 @@
 /*   By: negambar <negambar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 18:40:38 by girindi           #+#    #+#             */
-/*   Updated: 2024/10/14 12:56:36 by negambar         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:57:09 by negambar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,30 @@ static void find_oldpwd(t_mini *old)
 	}
 }
 
-void	ft_cd(char *input, t_mini *old)
+void	ft_cd(t_mini *old)
 {
 	int	i;
 
 	i = 0;
-	while (input[i] != 'd')
-		i++;
-	i += skip_spaces(&input[i], i);
-	if (input[i] == '/')
+	if (old->input[i] == '/')
 	{
-		if (chdir(&input[i]))
-			ft_printf("cd: no such file or directory: %s", &input[i]);
+		if (chdir(&old->input[i]))
+			printf("cd: no such file or directory: %s", &old->input[i]);
 	}
 	else
 	{
+		printf("INPUT: %s\n", &old->input[i]);
+		// printf("1:%c\n2:%c", old->input[i + 1], old->input[i + 2]);
 		find_oldpwd(old);
-		if (input[i + 1] == '.' && input[i + 2] == '.' && \
-				(input[i + 1] == ' ' || input[i + 1] == '\0'))
-			cd_back_dir(&input[i]);
+		if (old->input[i] == '.' && old->input[i + 1] == '.' && \
+				(old->input[i + 2] == ' ' || old->input[i + 2] == '\0'))
+		{
+			ft_putstr_fd("cd ..\n", 1);
+			cd_back_dir(old->input);}
 		else
-			cd_rel_path(input, i);
+		{
+			cd_rel_path(old->input, i);
+		}
 	}
 	return ;
 }
@@ -72,7 +75,7 @@ void	cd_back_dir(char *input)
 	i = 0;
 	j = 0;
 	if ((input[i + 2] != ' ' || input[i + 2] != '\0'))
-		ft_printf("cd: string not in pwd: ..");
+		printf("cd: string not in pwd: ..");
 	dir = getcwd(NULL, 0);
 	while (dir[i])
 		i++;
@@ -108,5 +111,5 @@ void	cd_rel_path(char *input, int j)
 		new_dir[i++] = input[j++];
 	new_dir[i] = '\0';
 	if (chdir(new_dir))
-		ft_printf("cd: no such file or directory: %s", &input[error]);
+		printf("cd: no such file or directory: %s", &input[error]);
 }
