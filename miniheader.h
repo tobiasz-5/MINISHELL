@@ -84,6 +84,7 @@ typedef struct s_mini
 {
 	int		exit_status;// per gestire $? ultimo exit
 	bool 	pipe_check;
+	int		pipe_cmd;
 	bool	redirect;//init NULL
 	char	*input;//init su quale input eseguire il comando
 	char	**cmd;//init comando da eseguire
@@ -105,11 +106,12 @@ void			ft_handle_red_out(t_mini **mini, t_token_node **current);
 void			ft_handle_world(t_mini **mini, t_token_node *current);
 void			ft_free_mini(t_mini **mini);
 void			ft_handle_first_token(t_token_node **current, t_mini **mini);
-void			ft_update_mini(t_mini **mini,t_token_node **current);
+void			ft_update_mini(t_mini **mini,t_token_node *current);
 t_mini			*ft_mini_init(char **env);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 void			ft_pipe(t_mini *mini, t_token_node *current);
+void			init_pipe(t_mini *mini, t_token_node *current);
 void			ft_pwd();
 void			init_sign(void);
 int				check_word(char *cmd, char *word, int len);

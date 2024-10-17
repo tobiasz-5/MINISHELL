@@ -51,28 +51,28 @@ void	ft_handle_first_token(t_token_node **current, t_mini **mini)
 	(*mini)->cmd[i] = NULL;
 }
 
-void	ft_update_mini(t_mini **mini,t_token_node **current)
+void	ft_update_mini(t_mini **mini,t_token_node *current)
 {
-	ft_handle_first_token(&(*current), &(*mini));//vede se il primo token è un comando e se si fa (*current) = next;
+	ft_handle_first_token(&(current), &(*mini));//vede se il primo token è un comando e se si fa (*current) = next;
 	
-	while ((*current) != NULL)//controlla il token finchè non da NULL
+	while (current != NULL)//controlla il token finchè non da NULL
 	{
-		if (ft_strncmp((const char *)(*current)->token, "$", 1) == 0)//DOLLAR CASE
-			ft_handle_dollar(&(*mini), (*current));
-		else if ((*current)->type == TOKEN_WORD)
-			ft_handle_world(&(*mini), (*current));
-		else if ((*current)->type == TOKEN_PIPE)
+		if (ft_strncmp((const char *)current->token, "$", 1) == 0)//DOLLAR CASE
+			ft_handle_dollar(&(*mini), current);
+		else if (current->type == TOKEN_WORD)
+			ft_handle_world(&(*mini), current);
+		else if (current->type == TOKEN_PIPE)
 			(*mini)->pipe_check = true;
-		else if ((*current)->type == TOKEN_HEREDOC)
-			ft_handle_heredoc(&(*mini), (*current));
-		else if ((*current)->type == TOKEN_REDIR_APPEND)
-			ft_handle_append(&(*mini), &(*current));
-		else if ((*current)->type == TOKEN_REDIR_IN)
-			ft_handle_red_in(&(*mini), &(*current));
-		else if ((*current)->type == TOKEN_REDIR_OUT)
-			ft_handle_red_out(&(*mini), &(*current));
-		(*current) = (*current)->next;
-		if (ft_check_token(current) == 1)//se trova la pipe nel token precendete esce (unico caso in cui uscire senno da errore automaticamente)
+		else if (current->type == TOKEN_HEREDOC)
+			ft_handle_heredoc(&(*mini), current);
+		else if (current->type == TOKEN_REDIR_APPEND)
+			ft_handle_append(&(*mini), &current);
+		else if (current->type == TOKEN_REDIR_IN)
+			ft_handle_red_in(&(*mini), &current);
+		else if (current->type == TOKEN_REDIR_OUT)
+			ft_handle_red_out(&(*mini), &current);
+		current = current->next;
+		if (ft_check_token(&current) == 1)//se trova la pipe nel token precendete esce (unico caso in cui uscire senno da errore automaticamente)
 			break ;
 	}
 }
@@ -112,6 +112,5 @@ t_mini	*ft_mini_init(char **env)
 	mini->export = NULL;
 	mini->pipe_check = false;
 	mini->exit_status = 0;
-
 	return (mini);
 }
