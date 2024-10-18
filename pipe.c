@@ -6,7 +6,7 @@
 /*   By: giulio <giulio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 17:14:18 by giulio            #+#    #+#             */
-/*   Updated: 2024/10/17 17:38:57 by giulio           ###   ########.fr       */
+/*   Updated: 2024/10/18 16:17:22 by giulio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,17 @@ static void count_cmd_pipe(t_token_node *current, t_mini *mini)
 	mini->pipe_cmd = 0;
 	while (current != NULL)
 	{
-		if (current->type == TOKEN_WORD && current->next->type == TOKEN_WORD)
+		if (current->next != NULL)
 		{
-			mini->pipe_cmd++;
-			current = current->next;
+			if (current->type == TOKEN_WORD && current->next->type == TOKEN_WORD)
+			{
+				mini->pipe_cmd++;
+				current = current->next;
+			}
+			else if (current->type == TOKEN_WORD)
+				mini->pipe_cmd++;
 		}
-		else
+		else if (current->type == TOKEN_WORD)
 			mini->pipe_cmd++;
 		current = current->next;
 	}
@@ -34,17 +39,22 @@ static void update_cmd_pipe(t_mini *mini, t_token_node *current)
 	int i;
 	char *tmp;
 	i = 0;
-	mini->pipe_cmd++;
-	mini->cmd = (char **)malloc((mini->pipe_cmd) * sizeof(char *));
+	
+	mini->cmd = (char **)malloc((mini->pipe_cmd + 1) * sizeof(char *));
 	if (!mini->cmd)
 		return ;
 	while (current != NULL)
 	{
-		if (current->type == TOKEN_WORD && current->next->type == TOKEN_WORD)
+		if (current->next != NULL)
 		{
-			tmp = ft_strjoin(current->token, " ");
-			mini->cmd[i++] = ft_strjoin(tmp, current->next->token);
-			current = current->next;
+			if (current->type == TOKEN_WORD && current->next->type == TOKEN_WORD)
+			{
+				tmp = ft_strjoin(current->token, " ");
+				mini->cmd[i++] = ft_strjoin(tmp, current->next->token);
+				current = current->next;
+			}
+			else if (current->type == TOKEN_WORD)
+				mini->cmd[i++] = ft_strdup(current->token);
 		}
 		else if (current->type == TOKEN_WORD)
 			mini->cmd[i++] = ft_strdup(current->token);
@@ -115,56 +125,49 @@ static void	execute(char *av, char **envp)
 	{
 		printf("Error executing command\n");
 	}
-	printf("executing command\n");
 	return ;
 }
 
-static void child_process(t_token_node *current, int prev_fd, int *fd, bool redirect, t_mini *mini, int cmd)
+static void child_process(int prev_fd, int *fd, t_mini *mini, int cmd)
 {
-	int	filein;
-	int fileout;
+	// int	filein;
+	// int fileout;
 	
 	if (prev_fd == -1)
 	{
-		if (redirect == true)
-		{
-			filein = open(current->token, 0777);
-			dup2(filein, STDIN_FILENO);
-			close(filein);
-			close(fd[1]);
-		}
-	
-		else
-			dup2(fd[0], STDIN_FILENO);
+		// if (current->type == TOKEN_REDIR_IN)
+		// {
+		// 	filein = open(current->token, 0777);
+		// 	dup2(filein, STDIN_FILENO);
+		// 	close(filein);
+		// }
 		dup2(fd[1], STDOUT_FILENO);
-		execute(mini->cmd[cmd], mini->env->env_new);
 		close(fd[1]);
 		close(fd[0]);
 	}
 	else
 	{
 		dup2(prev_fd, STDIN_FILENO);
-		if (current->next != NULL)
+		if (mini->cmd[cmd + 1] != NULL)
 			dup2(fd[1], STDOUT_FILENO);
-		else if (redirect == true)
-		{
-			fileout = open(current->token, O_CREAT | O_WRONLY | O_TRUNC);
-			dup2(fileout, STDOUT_FILENO);
-			close(fileout);
-		}
-		execute(current->token, mini->env->env_old);
+		// else if (current->type == TOKEN_REDIR_OUT)
+		// {
+		// 	fileout = open(current->token, O_CREAT | O_WRONLY | O_TRUNC);
+		// 	dup2(fileout, STDOUT_FILENO);
+		// 	close(fileout);
+		// }
 		close(fd[1]);
 		close(fd[0]);
 		close(prev_fd);
 	}
+	execute(mini->cmd[cmd], mini->env->env_new);
 }
-void	ft_pipe(t_mini *mini, t_token_node *current)
+void	ft_pipe(t_mini *mini)
 {
 	int i;
 	int	fd[2];
 	pid_t	pid;
 	int	prev_fd;
-	// int status;
 	
 	i = 0;
 	prev_fd = -1;
@@ -179,16 +182,19 @@ void	ft_pipe(t_mini *mini, t_token_node *current)
 		if (pid < 0)
 			printf("ERRORE FORK\n");//to_modify
 		if (pid == 0)
-			child_process(current, prev_fd, fd, mini->redirect, mini, i);
+			child_process(prev_fd, fd, mini, i);
 		else
 		{
 			if (prev_fd != -1)
 				close(prev_fd);
+			// if (i < mini->pipe_cmd - 1) // Chiudi solo per i processi intermedi
+			// 	close(fd[1]);
+			close(fd[1]);
+			prev_fd = fd[0];
 			// waitpid(pid, &status, 0);
 			wait(NULL);
 			mini->exit_status = pid;
 		}
-		prev_fd = fd[0];
 		i++;
 	}
 }

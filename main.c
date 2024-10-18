@@ -25,16 +25,24 @@ void	process_input(char *input, t_mini **mini)
     	return;
 	}
 	current = &tokens;
-	int count = 0;
-	while ((*current) != NULL)
+	ft_update_mini(mini, (*current));
+	if ((*mini)->pipe_check == true)
+		{	
+			init_pipe((*mini), tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
+			ft_pipe((*mini));//TODO controlla se ci sono pipe o meno e in caso li inizializa
+		}
+	else
+	{	while ((*current) != NULL)
 	{
 		ft_update_mini(mini, (*current));//aggiorna cmd, pipe, redirect per eseguirli
 		if ((*mini)->pipe_check == true)
 		{
 			init_pipe((*mini), tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
-			ft_pipe((*mini), tokens);//TODO controlla se ci sono pipe o meno e in caso li inizializa
+			ft_pipe((*mini));//TODO controlla se ci sono pipe o meno e in caso li inizializa
+			printf("pipe SEG\n");
+			break;
 		}
-		if (ft_check_cmd((*mini)->cmd[0]) == 1)/*1 builtin | 2 execv*/
+		else if (ft_check_cmd((*mini)->cmd[0]) == 1)/*1 builtin | 2 execv*/
 			{
 				handle_builtins(&(*mini));
 				break ;//upgrade gestione builtin
@@ -47,6 +55,8 @@ void	process_input(char *input, t_mini **mini)
 	}
 	ft_reset(&(*mini));
 	free_tokens (tokens);
+
+	}
 }
 
 void	init_sign(void)

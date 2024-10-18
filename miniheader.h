@@ -110,7 +110,7 @@ void			ft_update_mini(t_mini **mini,t_token_node *current);
 t_mini			*ft_mini_init(char **env);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
-void			ft_pipe(t_mini *mini, t_token_node *current);
+void			ft_pipe(t_mini *mini);
 void			init_pipe(t_mini *mini, t_token_node *current);
 void			ft_pwd();
 void			init_sign(void);
